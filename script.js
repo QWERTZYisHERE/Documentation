@@ -211,8 +211,8 @@ interface to focus on the
 combinations.
 
 The tasks are based on the first
-chapter of the Baseldeutsch-
-Grammatik-Buch, specifically
+chapter of the [Baseldeutsch-
+Grammatik-Buch](#Research and Data Collecting), specifically
 'die Lautgesetze'. The initial 
 thought was to use all of the
 seven rules.`,
@@ -441,12 +441,6 @@ typography animation, I
 implemented them into the 
 lesson. It is only in the
 task pages in the lesson.
-For other pages in the
-lesson, I made morph
-animations, so the user
-would understand the dif-
-ferences between the 
-standard and dialect word.
 
 The phone is interactive!`,
         layout: "row",
@@ -473,6 +467,15 @@ not feel cohesive. I revised
 the icons to better align with
 the map and the overall design
 of the app.
+For the explanaition pages in
+the lesson, I made morph ani-
+mations, so the user would
+understand the differences
+between the standard and dia-
+lect word. I also added color
+to the letters, that are
+significant for pronouncing
+the word.
 I also received feedback that
 the audio button was unclear
 in its active state, so I made
@@ -610,11 +613,21 @@ function appendInline(parent, text) {
     if (m.index > last)
       parent.appendChild(document.createTextNode(text.slice(last, m.index)));
     const a = document.createElement("a");
-    a.href = m[2];
     a.textContent = m[1];
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
     a.className = "rich-link";
+    if (m[2].startsWith("#")) {
+      // internal link: scroll to the section whose title matches
+      const target = m[2].slice(1);
+      a.href = "#";
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        goToTitle(target);
+      });
+    } else {
+      a.href = m[2];
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
     parent.appendChild(a);
     last = re.lastIndex;
   }
@@ -938,6 +951,13 @@ function observeLazyMedia() {
 function goToSection(i) {
   const sec = document.querySelector(`.slide-section[data-index="${i}"]`);
   if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// Scroll to the section whose title matches (used by in-page links)
+function goToTitle(title) {
+  const t = title.trim().toLowerCase();
+  const i = sections.findIndex((s) => (s.title || "").trim().toLowerCase() === t);
+  if (i >= 0) goToSection(i);
 }
 
 // Scroll to a month's first group
