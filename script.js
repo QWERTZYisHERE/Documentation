@@ -260,7 +260,7 @@ and Settings Page.
 I also noticed that it is 
 difficult to simulate
 haptic feedback because of
-technical limiations:
+technical limitations:
 I planned to program with
 HTML/CSS/JS, since I am
 most familiar with it and
