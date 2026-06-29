@@ -109,7 +109,7 @@ to take a different approach.`,
           { src: "Images/Other apps as inspiration.png" },
           { src: "Images/first sketches.png" },
           { src: "Images/collection.png" },
-          { src: "Images/Visual identity.png", full: "true" },
+          { src: "Images/Visual Identity.png", full: "true" },
         ],
       },
       {
