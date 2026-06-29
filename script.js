@@ -59,9 +59,9 @@ acquisition. The second part addresses various aspects of these apps through
 case studies, such as animation, haptic feedback, game mechanics, and social
 features. Through analyzing the successes and shortcomings of these apps,
 I observed how audiovisual elements and haptic feedback influence user 
-motivation. This led me for making an experimental dialect app that contains 
+motivation. This led me to make an experimental dialect app that contains 
 different versions of the same lesson. The different versions of the lessons
-have differences on animation, sound and haptic feedback.`,
+have differences in animation, sound and haptic feedback.`,
           },
           {
             text: 
@@ -148,7 +148,7 @@ from the website and collected
         title: "Animations",
         description:
 `For the thesis, I found it
-interesting, that typography
+interesting that typography
 animation could potentially
 help with pronunciation of
 the words. 
@@ -228,7 +228,7 @@ seven rules.`,
         text: 
 `Following the interim presentation in late April, feedback pointed toward making
 the design more playful. The core concept, experimenting with animation, sound,
-and haptic feedback was well received, with typography animations to aid pronunciation
+and haptic feedback, was well received, with typography animations to aid pronunciation
 standing out as the most promising direction. However, they questioned whether it would 
 work to involve pronunciation in the lesson tasks, since dialects focus more on 
 speaking than writing.`,
@@ -253,7 +253,7 @@ white.
 While designing the lesson,
 I realized that some rules 
 are difficult to visualize,
-so I decided to use 4 rules
+so I decided to use four rules
 instead of all seven. I plann-
 ed to make four main pages:
 Lesson Page, Lexicon Page,
@@ -298,7 +298,7 @@ opportunity to test out anima-
 tions to see if the pronunci-
 ation of the word is under-
 standable.
-Since there would be rules,I
+Since there would be rules, I
 thought it would be possible
 to program a tool, in which it
 would generate typography 
@@ -467,13 +467,13 @@ not feel cohesive. I revised
 the icons to better align with
 the map and the overall design
 of the app.
-For the explanaition pages in
+For the explanation pages in
 the lesson, I made morph ani-
 mations, so the user would
 understand the differences
 between the standard and dia-
 lect word. I also added color
-to the letters, that are
+to the letters that are
 significant for pronouncing
 the word.
 I also received feedback that
@@ -500,8 +500,8 @@ it react to sound when activated.`,
 - a young woman who lives in Romandie but does not speak Swiss German dialects.
 
 The user testing was helpful for understanding how the app is used and where issues arise. 
-I received a lot of feedback on both the design and usability. I also wanted specifically
-find testers, who do not have any contact with the dialect, so I would find weak points
+I received a lot of feedback on both the design and usability. I also wanted to specifically
+find testers who do not have any contact with the dialect, so I could find weak points
 of the app.
 
 Key findings:
