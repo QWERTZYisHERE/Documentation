@@ -251,22 +251,22 @@ which is typically black
 and white. 
 
 While designing the lesson,
-I realized that some rules are
-difficult to visualize, so I 
-decided to use 4 rules instead
-of all seven. I planned to make
-four main pages: Lesson Page, 
-Lexicon Page, Training Page 
-and Settings Page.
-I also noticed that it is 
-difficult to simulate
+I realized that some rules 
+are difficult to visualize,
+so I decided to use 4 rules
+instead of all seven. I plann-
+ed to make four main pages:
+Lesson Page, Lexicon Page,
+Training Page and Settings
+Page. I also noticed that 
+it is difficult to simulate
 haptic feedback because of
 technical limitations:
 I planned to program with
 HTML/CSS/JS, since I am
 most familiar with it and
-it has limited haptic
-features compared to other
+it has limited haptic fea-
+tures compared to other
 programming languages.`,
         layout: "row",
         media: [
@@ -476,17 +476,17 @@ it react to sound when activated.`,
         media: [
           {
             text: 
-`I had the opportunity to test the app with four people: 
+`I had the opportunity to test the app with four people:
+
 - a young woman who grew up in Basel and speaks the modern Basel dialect.
 - two German men who live in Germany and have no experience with the dialect.
 - a young woman who lives in Romandie but does not speak Swiss German dialects.
 
-\n\n
-The user testing was helpful for understanding how the app is used and where issues arise. 
-I received a lot of feedback on both the design and usability.
+The user testing was helpful for understanding how the app is used and where issues arise. I received a lot of feedback on both the design and usability.
 
 Key findings:
-- The German participants had no familiarity with the pronunciation of the words, even though it is written. 
+
+- The German participants had no familiarity with the pronunciation of the words, even though it is written.
 - All of the users found it weird that the lexikon page was empty at the beginning.
 - The testers found the typography animation useful. It helped them see exactly what they needed to pronounce.
 - Technical issues were found. The voice recording had bugs or couldn't hear the word.`
@@ -554,10 +554,10 @@ HTML, CSS & JavaScript
 Acknowledgements: 
 Studio Freisicht — advice on technical and marketing aspects
 Zeynep Köylü — interview on second language acquisition 
-Erik Beitinger — user testing and advice on UX/layout
-Florian Hergenröder — user testing and advice on UX/layout
+Erik Beitinger — user testing
+Florian Hergenröder — user testing
 Taylor Kovacevic — user testing
-Zoé Gebele — user testing and advice on UX/layout
+Zoé Gebele — user testing
 
 FHNW, Basel Academy of Art and Design 
 Institute Digital Communication Environments 
