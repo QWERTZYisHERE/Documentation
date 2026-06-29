@@ -569,15 +569,16 @@ header h1 {
 }
 
 /* Rich text: paragraphs + bullet lists (lines starting with "- ") */
-.rich-p { margin: 0 0 0.7em; white-space: pre-wrap; }
+.rich-p { margin: 0; white-space: pre-wrap; }
 .rich-p:last-child { margin-bottom: 0; }
 .rich-list {
-  margin: 0 0 0.7em;
+  margin: 0;
   padding-left: 1.25em;   /* room for the marker, with hanging indent */
   list-style: disc;
 }
-.rich-list li { margin-bottom: 0.25em; }
+.rich-list li { margin-bottom: 0.4em; }
 .rich-list:last-child { margin-bottom: 0; }
+.rich-gap { height: 1.1em; }
 .rich-link {
   color: var(--cyan);
   text-decoration: underline;

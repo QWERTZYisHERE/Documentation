@@ -174,9 +174,9 @@ animation with other words.
 I made more typography ani-
 mations to look at possibi-
 lities of how it could help
-out with pronunciation.
-For certain vowels, I stretch-
-ed them out like the double 
+out with pronunciation. For
+certain vowels, I stretched
+them out like the double 
 vowels.`,
         layout: "grid",
         columns: 3,
@@ -247,8 +247,8 @@ I wasn't sure which visual
 elements I wanted to integrate.
 At first, I based the visual 
 style on Basel's coat of arms,
-which is typically black 
-and white. 
+which is typically black and
+white. 
 
 While designing the lesson,
 I realized that some rules 
@@ -258,8 +258,8 @@ instead of all seven. I plann-
 ed to make four main pages:
 Lesson Page, Lexicon Page,
 Training Page and Settings
-Page. I also noticed that 
-it is difficult to simulate
+Page. I also noticed that it
+is difficult to simulate
 haptic feedback because of
 technical limitations:
 I planned to program with
@@ -298,10 +298,10 @@ opportunity to test out anima-
 tions to see if the pronunci-
 ation of the word is under-
 standable.
-Since there would be rules,
-I thought it would be possible
-to program a tool, in which
-it would generate typography
+Since there would be rules,I
+thought it would be possible
+to program a tool, in which it
+would generate typography 
 animations. Depending on which
 letter is in the word, it 
 would animate something
@@ -375,14 +375,14 @@ animations.`,
         title: "Personas",
         description:
 `
-After the second interim 
-presentation, I received
-feedback that my project
-needed to be more specific,
-particularly whether it
-should focus on app design
-or experimentation with 
-audiovisual elements.
+After the second interim pre-
+sentation, I received feed-
+back that my project needed
+to be more specific, parti-
+cularly whether it should
+focus on app design or
+experimentation with audio-
+visual elements.
 
 After some thought, I decided
 to focus on app design, as
@@ -433,6 +433,18 @@ and including an info button
 for explaining cultural 
 references.
 
+Since I experimented with
+typography animation, I
+implemented them into the 
+lesson. It is only in the
+task pages in the lesson.
+For other pages in the
+lesson, I made morph
+animations, so the user
+would understand the dif-
+ferences between the 
+standard and dialect word.
+
 The phone is interactive!`,
         layout: "row",
         media: [
@@ -477,15 +489,16 @@ it react to sound when activated.`,
           {
             text: 
 `I had the opportunity to test the app with four people:
-
 - a young woman who grew up in Basel and speaks the modern Basel dialect.
 - two German men who live in Germany and have no experience with the dialect.
 - a young woman who lives in Romandie but does not speak Swiss German dialects.
 
-The user testing was helpful for understanding how the app is used and where issues arise. I received a lot of feedback on both the design and usability.
+The user testing was helpful for understanding how the app is used and where issues arise. 
+I received a lot of feedback on both the design and usability. I also wanted specifically
+find testers, who do not have any contact with the dialect, so I would find weak points
+of the app.
 
 Key findings:
-
 - The German participants had no familiarity with the pronunciation of the words, even though it is written.
 - All of the users found it weird that the lexikon page was empty at the beginning.
 - The testers found the typography animation useful. It helped them see exactly what they needed to pronounce.
@@ -634,6 +647,9 @@ function setRichText(el, str) {
     } else if (line.trim() === "") {
       flushPara();
       list = null;
+      const gap = document.createElement("div");
+      gap.className = "rich-gap";
+      el.appendChild(gap); // every empty line = one unit of distance
     } else {
       list = null;
       para.push(line);
