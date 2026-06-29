@@ -541,7 +541,7 @@ Manrope
 
 Resources: 
 Suter, R., & Christoph Merian Stiftung. (1976). Baseldeutsch-Grammatik. Christoph Merian Verlag.
-Suter, R. (1984). Baseldeutsch-Wörterbuch. C. Merian. 
+Suter, R., & Christoph Merian Stiftung. (1984). Baseldeutsch-Wörterbuch. Christoph Merian Verlag.
 Holeiter, D. (n.d.). Baseldeutsch Wörterbuch Online. https://baseldeutsch-woerterbuch.floatleft.ch/ 
 
 Tools: 
@@ -553,7 +553,7 @@ Acknowledgements:
 Studio Freisicht — advice on technical and marketing aspects
 Zeynep Köylü — interview on second language acquisition 
 Erik Beitinger — user testing and advice on UX/layout
-Florian — user testing and advice on UX/layout
+Florian Hergenröder — user testing and advice on UX/layout
 Taylor Kovacevic — user testing
 Zoé Gebele — user testing and advice on UX/layout
 
