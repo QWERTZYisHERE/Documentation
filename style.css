@@ -578,6 +578,12 @@ header h1 {
 }
 .rich-list li { margin-bottom: 0.25em; }
 .rich-list:last-child { margin-bottom: 0; }
+.rich-link {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rich-link:hover { opacity: 0.8; }
 
 /* Section body text (set "text" on a group) — inline in the scroll */
 .section-text {

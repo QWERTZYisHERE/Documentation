@@ -59,8 +59,9 @@ acquisition. The second part addresses various aspects of these apps through
 case studies, such as animation, haptic feedback, game mechanics, and social
 features. Through analyzing the successes and shortcomings of these apps,
 I observed how audiovisual elements and haptic feedback influence user 
-motivation. This led me to experiment with these aspects in an experimental
-dialect app that contains different versions of the same lesson.`,
+motivation. This led me for making an experimental dialect app that contains 
+different versions of the same lesson. The different versions of the lessons
+have differences on animation, sound and haptic feedback.`,
           },
           {
             text: 
@@ -149,7 +150,7 @@ from the website and collected
 `For the thesis, I found it
 interesting, that typography
 animation could potentially
-help with pronounciation of
+help with pronunciation of
 the words. 
 
 At first, I made some anima-
@@ -172,11 +173,11 @@ animations for the app.`,
 animation with other words.
 I made more typography ani-
 mations to look at possibi-
-lities, how it could help
-out with pronounciation.
-For certain vocals, I stretch-
+lities of how it could help
+out with pronunciation.
+For certain vowels, I stretch-
 ed them out like the double 
-vocals.`,
+vowels.`,
         layout: "grid",
         columns: 3,
         media: [
@@ -228,9 +229,9 @@ seven rules.`,
 `Following the interim presentation in late April, feedback pointed toward making
 the design more playful. The core concept, experimenting with animation, sound,
 and haptic feedback was well received, with typography animations to aid pronunciation
-standing out as the most promising direction. However, they questioned, if it would 
-work to involve pronounciation in the lesson tasks, since dialects focus more on 
-speaking instead of writing.`,
+standing out as the most promising direction. However, they questioned whether it would 
+work to involve pronunciation in the lesson tasks, since dialects focus more on 
+speaking than writing.`,
       },
     ],
   },
@@ -249,7 +250,7 @@ style on Basel's coat of arms,
 which is typically black 
 and white. 
 
-During designing the lesson,
+While designing the lesson,
 I realized that some rules are
 difficult to visualize, so I 
 decided to use 4 rules instead
@@ -265,7 +266,7 @@ I planned to program with
 HTML/CSS/JS, since I am
 most familiar with it and
 it has limited haptic
-feature compared to other
+features compared to other
 programming languages.`,
         layout: "row",
         media: [
@@ -285,13 +286,13 @@ programming languages.`,
         title: "Animation Rules",
         description:
 `I was trying to make animation
-rules depending on which vocals
-are on the word. The animation
+rules depending on which vowels
+are in the word. The animation
 should be more intuitive and
 help the user to understand how
 to pronounce the word. Then I
 made a tool to animate the words
-depending on which vocals are
+depending on which vowels are
 in the word. This gave me the
 opportunity to test out anima-
 tions to see if the pronunci-
@@ -301,8 +302,8 @@ Since there would be rules,
 I thought it would be possible
 to program a tool, in which
 it would generate typography
-animations. Depending which
-letter is on the word, it 
+animations. Depending on which
+letter is in the word, it 
 would animate something
 different.
 
@@ -407,7 +408,7 @@ persona.`,
         description:
 `Version 1.2 — For this version,
 I implemented a dark/light mode.
-I wanted to see, how the light 
+I wanted to see how the light 
 mode feels. 
 
 It is interactive!`,
@@ -460,7 +461,7 @@ of the app.
 I also received feedback that
 the audio button was unclear
 in its active state, so I made
-it audioreactive when activated.`,
+it react to sound when activated.`,
         layout: "row",
         media: [
           { src: "Images/Entwurf Icon Design.png" },
@@ -485,9 +486,9 @@ The user testing was helpful for understanding how the app is used and where iss
 I received a lot of feedback on both the design and usability.
 
 Key findings:
-- The German participants had no familiarity with the pronunciation of the words, even it is written. 
+- The German participants had no familiarity with the pronunciation of the words, even though it is written. 
 - All of the users found it weird that the lexikon page was empty at the beginning.
-- The testers found it useful for the typography animation. It helped, what exactly they need to pronounce.
+- The testers found the typography animation useful. It helped them see exactly what they needed to pronounce.
 - Technical issues were found. The voice recording had bugs or couldn't hear the word.`
           },
         ],
@@ -584,6 +585,27 @@ const PAGES = {
 
 // Render text, turning lines that start with "- ", "* " or "•" into a real
 // bullet list (with hanging indent). Blank lines separate paragraphs.
+// Append text to a node, turning [label](url) into real links.
+function appendInline(parent, text) {
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(text))) {
+    if (m.index > last)
+      parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+    const a = document.createElement("a");
+    a.href = m[2];
+    a.textContent = m[1];
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.className = "rich-link";
+    parent.appendChild(a);
+    last = re.lastIndex;
+  }
+  if (last < text.length)
+    parent.appendChild(document.createTextNode(text.slice(last)));
+}
+
 function setRichText(el, str) {
   el.innerHTML = "";
   const lines = String(str || "").replace(/\r/g, "").split("\n");
@@ -593,7 +615,7 @@ function setRichText(el, str) {
     if (!para.length) return;
     const p = document.createElement("p");
     p.className = "rich-p";
-    p.textContent = para.join("\n");
+    appendInline(p, para.join("\n"));
     el.appendChild(p);
     para = [];
   };
@@ -607,7 +629,7 @@ function setRichText(el, str) {
         el.appendChild(list);
       }
       const li = document.createElement("li");
-      li.textContent = m[1];
+      appendInline(li, m[1]);
       list.appendChild(li);
     } else if (line.trim() === "") {
       flushPara();
