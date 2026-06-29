@@ -580,7 +580,7 @@ header h1 {
 .rich-list:last-child { margin-bottom: 0; }
 .rich-gap { height: 1.1em; }
 .rich-link {
-  color: var(--cyan);
+  color: inherit;            /* stay white like the surrounding text */
   text-decoration: underline;
   text-underline-offset: 2px;
 }
