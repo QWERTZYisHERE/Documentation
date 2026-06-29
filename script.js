@@ -344,9 +344,9 @@ The app is interactive.`,
       {
         title: "Second Interim Presentation",
         text: 
-`The main feedback was around visual design and animation. The app could use more
-color to better convey its mood, with the possibility of letting users choose 
-their own colors. On the animation side, there is room to experiment more, 
+`The main feedback was around visual design and animation. The app could use 
+more color to better convey its mood, with the possibility of letting users 
+choose their own colors. On the animation side, there is room to experiment more, 
 particularly with how pronunciation is shown, such as animating certain letters 
 differently. Giving users more control over the animations was also suggested. 
 A bigger open question is whether the project should focus on app design or 
@@ -373,7 +373,8 @@ animations.`,
       {
         title: "Personas",
         description:
-`After the second interim 
+`
+After the second interim 
 presentation, I received
 feedback that my project
 needed to be more specific,
