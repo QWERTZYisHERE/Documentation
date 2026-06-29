@@ -1,0 +1,911 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.impressum {
+  position: absolute;
+  bottom: 32px;
+  left: 24px;
+}
+
+:root {
+  /* Palette taken from the Baseldeutsch app */
+  --orange: #ff723f;
+  /* brand orange (accent-light) */
+  --orange-dark: #e0653a;
+  --navy: #101113;
+  /* outlines / dark surfaces */
+  --brown: #3e3232;
+  /* text */
+  --cyan: #8efbff;
+  /* secondary highlight */
+  --accent-dark: #691a1a;
+}
+
+body {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 500;
+  background: var(--navy);
+  color: #eee;
+  min-height: 100vh;
+}
+
+/* Morph the clicked menu word up into the page title (and back) */
+::view-transition-group(page-title) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Keep the word at its natural size while it moves — no stretchy smear */
+::view-transition-old(page-title),
+::view-transition-new(page-title) {
+  height: auto;
+  object-fit: none;
+  object-position: left top;
+}
+
+/* Match the page cross-fade to the title morph so they finish together */
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+}
+
+/* ── App shell: ONE orange box that resizes; the rest is the stage ── */
+#app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+/* The single orange box — wide on the home menu, sidebar-width on a page.
+   Only its width animates, so it reads as the same box squeezing. */
+#panel {
+  position: relative;
+  flex: 0 0 auto;
+  width: 370px;
+  /* same width on the home menu and on a page */
+  background: var(--orange);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* The box's two contents are stacked; only one is shown at a time and they
+   cross-fade as the box resizes. */
+.panel-pane {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.3s ease;
+}
+
+#panel-home {
+  padding: 2rem 1.5rem;
+}
+
+#panel-nav {
+  padding: 2rem 1.5rem;
+}
+
+body.page #panel-home {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body:not(.page) #panel-nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Stage (right of the box) — holds the slideshow; empty on the home menu */
+#stage {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  /* so #slide-body fills the full height */
+}
+
+#slide-body {
+  flex: 1;
+}
+
+body:not(.page) #slide-body {
+  display: none;
+}
+
+body:not(.page) .back-link--float {
+  display: none;
+}
+
+/* Home diashow — slow crossfade between photos, always one fully visible */
+#home-diashow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+body.page #home-diashow {
+  display: none;
+}
+
+.diashow-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.hero-menu {
+  list-style: none;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.hero-menu a {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 700;
+  transition: opacity 0.15s;
+}
+
+.hero-menu a::before {
+  position: absolute;
+  left: 0;
+}
+
+.hero-menu a:hover {
+  color: var(--cyan);
+  opacity: 1;
+}
+
+@media (max-width: 800px) {
+  #panel {
+    width: 250px;
+  }
+}
+
+/* ── Back link ── */
+.back-link {
+  display: inline-block;
+  color: #888;
+  text-decoration: none;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+  transition: color 0.15s;
+}
+
+.back-link:hover {
+  color: #fff;
+}
+
+.back-link--float {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-size: 1.5rem;
+  z-index: 30;
+  margin: 0;
+  background: transparent;
+  color: #fff;
+  border-radius: 30px;
+  border: transparent;
+  font-weight: 700;
+}
+
+.back-link--float:hover {
+  color: var(--cyan);
+}
+
+/* ── Header (design page) ── */
+header {
+  padding: 1.5rem 2rem 1.5rem;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  background-color: #111;
+  z-index: 10;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ── Timeline ── */
+#timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* ── Entry ── */
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.entry-date {
+  font-size: 0.78rem;
+  color: #555;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.entry-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+}
+
+.entry-text {
+  font-size: 0.92rem;
+  color: #aaa;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+/* ── Media grid inside entry ── */
+.entry-media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.3rem;
+}
+
+.thumb {
+  width: 700px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #1c1c1c;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.15s;
+}
+
+.thumb img,
+.thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.thumb .play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* ── Divider between entries ── */
+.entry+.entry {
+  border-top: 1px solid #1e1e1e;
+  padding-top: 4rem;
+  margin-top: -4rem;
+}
+
+/* Hide individual native video controls (set "hideControls" on a media item).
+   WebKit/Chromium pseudo-elements — keeps the other controls visible. */
+.hc-volume::-webkit-media-controls-mute-button,
+.hc-volume::-webkit-media-controls-volume-control-container,
+.hc-volume::-webkit-media-controls-volume-slider {
+  display: none !important;
+}
+
+.hc-fullscreen::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+.hc-timeline::-webkit-media-controls-timeline,
+.hc-timeline::-webkit-media-controls-current-time-display,
+.hc-timeline::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
+
+.hc-playbackrate::-webkit-media-controls-playback-rate-button {
+  display: none !important;
+}
+
+/* ── Slideshow ── */
+
+/* Page name at the top of the sidebar (Design / Prototype / …) */
+#slide-nav-title {
+  font-family: Manrope;
+  flex-shrink: 0;
+  margin-top: 2.5rem;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+/* Month list, vertically centred in the remaining space */
+#slide-nav-items {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.slide-nav-item {
+  font-family: Manrope;
+  font-weight: 700;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.9;
+  padding: 0;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  /* long active labels wrap, don't widen the box */
+  transition:
+    font-size 0.15s,
+    opacity 0.15s;
+}
+
+.slide-nav-item:hover {
+  opacity: 1;
+}
+
+.slide-nav-item.active {
+  font-size: 3rem;
+  font-weight: 500;
+  opacity: 1;
+}
+
+/* Sub-chapters (titled sections) under the active month */
+.subnav {
+  display: none;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.6rem 0.1rem;
+}
+
+.subnav.open {
+  display: flex;
+}
+
+.subnav-item {
+  position: relative;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  opacity: 0.75;
+  padding: 0 0 0 1rem;
+  overflow-wrap: anywhere;
+  transition:
+    opacity 0.15s,
+    color 0.15s;
+}
+
+.subnav-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.subnav-item:hover {
+  opacity: 1;
+}
+
+.subnav-item.active {
+  opacity: 1;
+  color: var(--cyan);
+}
+
+/* Stage + text area */
+#slide-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 2.5rem;
+  padding: 4.5rem 3rem 3rem;
+}
+
+/* Scroll-snap container: one full-height section per slide */
+#slide-scroll {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  /* hide scrollbar (Firefox) */
+}
+
+#slide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chrome/Safari */
+
+.slide-section {
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  padding: 0 2.5rem 2.5rem 3rem;
+}
+
+/* Per-group layout (set "layout" on a group): column (default) | row | grid */
+.slide-section.layout-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 1.5rem 2rem;
+  padding: 0 2.5rem 2.5rem 3rem;
+}
+
+.slide-section.layout-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  justify-items: center;
+  align-content: start;
+  gap: 1.5rem 2rem;
+  width: 100%;
+  max-width: min(95vw, calc(var(--cols, 2) * 420px));
+  margin: 0 auto;
+  padding: 0 2.5rem 2.5rem 3rem;
+}
+
+/* Month heading at the start of each month — spans all columns/rows */
+.section-month {
+  width: 100%;
+  flex-basis: 100%;
+  grid-column: 1 / -1;
+  text-align: left;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--orange);
+  line-height: 1.05;
+  margin-bottom: 0.2rem;
+}
+
+/* Design page: every section shares the same width, left-aligned media */
+#stage[data-set="design"] .slide-section {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: 2rem;
+  align-items: flex-start;
+}
+
+#stage[data-set="design"] .slide-section.layout-row {
+  justify-content: flex-start;
+}
+
+#stage[data-set="design"] .slide-section.layout-grid {
+  justify-items: start;
+}
+
+/* Opt a single section back to centred (set align: "center" on the group) */
+#stage[data-set="design"] .slide-section.align-center {
+  align-items: center;
+}
+
+#stage[data-set="design"] .slide-section.align-center.layout-row {
+  justify-content: center;
+}
+
+#stage[data-set="design"] .slide-section.align-center.layout-grid {
+  justify-items: center;
+}
+
+/* A media item set to full: true spans the whole row / all grid columns */
+/* A media item set to center: true sits on its own full-width line, centred */
+.slide-section .media-center {
+  flex-basis: 100%;
+  width: 100%;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+.slide-section .media-full {
+  grid-column: 1 / -1;
+  /* span every column in a grid */
+  flex-basis: 100%;
+  /* take the full row in a row/column layout */
+  max-width: 100%;
+}
+
+.slide-section .media-full:is(img, video) {
+  width: 100%;
+}
+
+/* Rich text: paragraphs + bullet lists (lines starting with "- ") */
+.rich-p { margin: 0 0 0.7em; white-space: pre-wrap; }
+.rich-p:last-child { margin-bottom: 0; }
+.rich-list {
+  margin: 0 0 0.7em;
+  padding-left: 1.25em;   /* room for the marker, with hanging indent */
+  list-style: disc;
+}
+.rich-list li { margin-bottom: 0.25em; }
+.rich-list:last-child { margin-bottom: 0; }
+
+/* Section body text (set "text" on a group) — inline in the scroll */
+.section-text {
+  width: 100%;
+  flex-basis: 100%;
+  grid-column: 1 / -1;
+  max-width: 700px;
+  align-self: flex-start;
+  /* keep the block on the left, not centred */
+  margin-right: auto;
+  text-align: left;
+  color: #ddd;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* Section heading (set "title" on a group) — spans all columns/rows */
+.section-title {
+  width: 100%;
+  flex-basis: 100%;
+  grid-column: 1 / -1;
+  text-align: left;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+
+.slide-section img,
+.slide-section video {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.slide-section iframe {
+  width: 100%;
+  height: 78vh;
+  border: none;
+  cursor: default;
+  flex-shrink: 0;
+}
+
+/* Phone mockup frame for embedded web apps.
+   The app renders at a logical 393 × 852 viewport, then the whole screen
+   is scaled down so the phone is 600px tall. */
+.phone {
+  --screen-w: 393;
+  /* logical app width  */
+  --screen-h: 852;
+  /* logical app height */
+  --display-h: 600;
+  /* on-screen height   */
+  --scale: calc(var(--display-h) / var(--screen-h));
+  --bezel: 13px;
+
+  position: relative;
+  box-sizing: border-box;
+  height: calc(var(--display-h) * 1px + 2 * var(--bezel));
+  width: calc(var(--screen-w) / var(--screen-h) * var(--display-h) * 1px + 2 * var(--bezel));
+  padding: var(--bezel);
+  background: #111;
+  border-radius: 46px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 0 2px #2a2a2a,
+    0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Dynamic island / notch */
+.phone::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 26px;
+  background: #000;
+  border-radius: 14px;
+  z-index: 2;
+}
+
+.phone iframe {
+  width: calc(var(--screen-w) * 1px);
+  height: calc(var(--screen-h) * 1px);
+  transform: scale(var(--scale));
+  transform-origin: top left;
+  border: none;
+  border-radius: calc(34px / var(--scale));
+  /* ≈34px after scaling */
+  background: #fff;
+  display: block;
+}
+
+/* Top-corner arrows */
+.slide-arrow {
+  position: absolute;
+  top: 1.25rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+  z-index: 5;
+}
+
+.slide-arrow:hover {
+  opacity: 1;
+}
+
+.slide-arrow:disabled {
+  opacity: 0.15;
+  cursor: default;
+}
+
+.slide-arrow--prev {
+  left: 1.5rem;
+}
+
+.slide-arrow--next {
+  right: 1.5rem;
+}
+
+/* "Info" — static heading above the section's description text */
+#info-title {
+  align-self: flex-start;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Right-hand info column (width reserved so the scroll area never resizes) */
+#slide-text {
+  order: 1;
+  /* right column, after the media scroll */
+  flex: 0 0 230px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#slide-text::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-text-inner {
+  color: #ccc;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* ── Lightbox ── */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+#lightbox.hidden {
+  display: none;
+}
+
+#lb-content {
+  max-width: 92vw;
+  max-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#lb-content img {
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+#lb-content video {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 4px;
+  outline: none;
+}
+
+#lb-close {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+#lb-close:hover {
+  opacity: 1;
+}
+
+#lb-prev,
+#lb-next {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  font-size: 3rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 1;
+  opacity: 0.5;
+  transition:
+    opacity 0.15s,
+    background 0.15s;
+}
+
+#lb-prev:hover,
+#lb-next:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#lb-prev {
+  left: 1rem;
+}
+
+#lb-next {
+  right: 1rem;
+}
+
+@media (max-width: 700px) {
+  #timeline {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .thumb {
+    width: 100%;
+  }
+
+  #slide-nav {
+    flex-basis: 90px;
+    padding: 1.5rem 1rem;
+  }
+
+  .slide-nav-item {
+    font-size: 1.1rem;
+  }
+
+  .slide-nav-item.active {
+    font-size: 2rem;
+  }
+
+  #slide-body {
+    gap: 1rem;
+    padding: 4rem 1rem 2rem;
+  }
+
+  #slide-text {
+    flex-basis: 160px;
+  }
+
+  #lb-prev {
+    left: 0.25rem;
+  }
+
+  #lb-next {
+    right: 0.25rem;
+  }
+}
+
+@media (min-width: 800px) {
+  #only-desk {
+    display: none;
+  }
+}
+
+
+@media (max-width: 800px) {
+  #panel {
+    width: 100%;
+  }
+
+  #panel-home {
+    display: none;
+  }
+
+  #only-desk {
+    display: block;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #slide-nav-items{
+    display: none;
+  }
+
+  #slide-nav-title{
+    display: none;
+  }
+
+  .back-link{
+    display: none;
+  }
+
+
+}

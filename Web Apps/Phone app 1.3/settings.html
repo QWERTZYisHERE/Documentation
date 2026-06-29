@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Einstellungen</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: #4C4848;
+      display: flex;
+      flex-direction: column;
+      max-width: 393px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100dvh;
+      color: #fff;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+
+    .top-bar {
+      background: #4C4848;
+      height: 30px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: #fff;
+      padding: 18px 30px 14px;
+      flex-shrink: 0;
+    }
+
+    .settings-card {
+      margin: 0 20px;
+      background: #474747;
+      background: #4C4848;
+      border: solid #A29595;
+      border-width: 2px 2px 5px 2px;
+      border-radius: 20px;
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .setting-row {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .setting-label {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #A29595;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #44869A;
+      border: solid #8CD0D3;
+      border-width: 2px 2px 4px 2px;
+      cursor: pointer;
+      margin-top: -12px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #44869A;
+      border: solid #8CD0D3;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      background: #A29595;
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: #776E6E;
+      border-radius: 2px;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .bottom-nav {
+      background: #4C4848;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      border-top: 3px solid #776E6E;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #44869A;
+      stroke: #44869A;
+    }
+
+    .nav-btn.active svg {
+      fill: #8CD1D3;
+      stroke: #8CD1D3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <div class="page-title">Einstellungen</div>
+
+  <div class="settings-card">
+    <div class="setting-row">
+      <label class="setting-label" for="fontSize">Schriftgrösse</label>
+      <input type="range" id="fontSize" min="1" max="5" step="1" value="3">
+    </div>
+    <div class="setting-row">
+      <label class="setting-label" for="animSpeed">Animationslänge</label>
+      <input type="range" id="animSpeed" min="1" max="5" step="1" value="3">
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="navigateTo('index.html')" aria-label="Home">
+      <svg viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.56688 15C1.0669 15 0.271494 15.1137 0.0669067 14.5C-0.231878 13.6037 0.566881 13 0.566881 13L14.0669 0.5C14.0669 0.5 14.7534 0 15.0669 0C15.3804 0 16.0669 0.5 16.0669 0.5L29.5669 13C29.5669 13 30.3937 13.8464 30.0669 14.5C29.7401 15.1536 29.0669 15 28.5669 15H25.5669V19.5V24C25.5669 24 25.5669 26 25.0669 26.5C24.5669 27 22.5669 27 22.5669 27H7.56689C7.56689 27 5.60993 27.043 5.06689 26.5C4.52386 25.957 4.56689 24 4.56689 24L4.56688 15H1.56688Z" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('lexikon.html')" aria-label="Suche">
+      <svg viewBox="0 0 28 31" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M16.5518 15.5547C16.8565 15.9153 17.2927 16.4316 17.8164 17.0537C18.864 18.2981 20.264 19.9663 21.6729 21.6602C23.0819 23.3542 24.4993 25.0728 25.582 26.4199C26.1237 27.0939 26.5791 27.6734 26.9082 28.1084C27.073 28.3262 27.2042 28.5046 27.2969 28.6396C27.3433 28.7072 27.3775 28.761 27.4014 28.8008C27.4291 28.847 27.431 28.8555 27.4258 28.8408C27.5685 29.2459 27.6165 29.5233 27.5898 29.7305C27.5666 29.9104 27.4817 30.0758 27.248 30.2529C26.7451 30.6342 26.0338 30.7794 25.3613 30.2559C25.3375 30.2371 25.2676 30.1709 25.1416 30.0352C25.0224 29.9067 24.8694 29.7344 24.6865 29.5234C24.3209 29.1018 23.8434 28.533 23.292 27.8672C22.1894 26.5359 20.7974 24.8216 19.4316 23.127C18.0662 21.4327 16.7272 19.7591 15.7295 18.5088C15.2306 17.8836 14.8171 17.3639 14.5283 17.001C14.4725 16.9308 14.4212 16.8667 14.375 16.8086C15.1024 16.3963 15.7692 15.898 16.3584 15.3262C16.4151 15.3933 16.4799 15.4696 16.5518 15.5547ZM9.36719 0.40332C14.3396 0.40332 18.332 4.2096 18.332 8.85742C18.332 11.0004 17.4861 12.959 16.0869 14.4521C15.4677 15.1129 14.7407 15.6831 13.9307 16.1357L13.5781 16.3223C12.3238 16.9529 10.8905 17.3105 9.36719 17.3105C4.39513 17.3103 0.403467 13.505 0.40332 8.85742C0.40332 4.20975 4.39504 0.403567 9.36719 0.40332Z"
+          stroke="#8CD0D3" stroke-width="0" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('marked.html')" aria-label="Gespeichert">
+      <svg viewBox="0 0 20 33" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 30.9363V1.5H18.1051V30.9363L9.66183 22.0768L1.5 30.9363Z" stroke="#44869A"  stroke-width="2"
+          stroke-linejoin="round" />
+      </svg>
+
+    </button>
+    <button class="nav-btn active" onclick="navigateTo('settings.html')" aria-label="Einstellungen">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M28.7837 19.5495C28.7837 24.7966 24.7488 29.0502 19.7715 29.0502M28.7837 19.5495C28.7837 14.3024 24.7488 10.0488 19.7715 10.0488M28.7837 19.5495H35.3232M19.7715 29.0502C14.7941 29.0502 10.7592 24.7966 10.7592 19.5495M19.7715 29.0502V35.7006M10.7592 19.5495C10.7592 14.3024 14.7941 10.0488 19.7715 10.0488M10.7592 19.5495H4M19.7715 10.0488V4M13.3928 12.8378L8.92358 7.92383M30.7946 31.9268L25.6294 26.7696M26.1501 12.8378L30.7946 7.92383M8.92358 31.9268L13.4629 26.3343"
+          stroke="#8CD0D3" stroke-width="8" stroke-linecap="round" />
+      </svg>
+
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    const fontSizes = ['14px', '16px', '18px', '20px', '22px'];
+    const animSpeeds = ['0.08s', '0.15s', '0.22s', '0.35s', '0.5s'];
+
+    function loadSettings() {
+      const fs = parseInt(localStorage.getItem('fontSize') || '3');
+      const as = parseInt(localStorage.getItem('animSpeed') || '3');
+      document.getElementById('fontSize').value = fs;
+      document.getElementById('animSpeed').value = as;
+    }
+
+    document.getElementById('fontSize').addEventListener('input', function () {
+      localStorage.setItem('fontSize', this.value);
+    });
+
+    document.getElementById('animSpeed').addEventListener('input', function () {
+      localStorage.setItem('animSpeed', this.value);
+    });
+
+    loadSettings();
+  </script>
+
+</body>
+
+</html>

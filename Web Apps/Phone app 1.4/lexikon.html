@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet">
+  <meta charset="UTF-8">
+  <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Lexikon</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      max-width: 393px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100dvh;
+      color: var(--text);
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+    .top-bar {
+      background: var(--bg);
+      height: 30px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .search-container {
+      padding: 14px 20px 0px;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 20px 0;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      border: 2.5px solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      background: transparent;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 20px;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent-light);
+      color: #fff;
+    }
+
+    .display-btn {
+      border-width: 2px 2px 5px 2px;
+      border-style: solid;
+      border-color: var(--border);
+      background: transparent;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 20px;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .display-btn.active {
+      background: var(--accent);
+      border-color: var(--accent-light);
+      color: #fff;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: var(--accent);
+      border: solid var(--accent-light);
+      border-width: 2px 2px 5px 2px;
+      padding: 12px 18px;
+      gap: 12px;
+      border-radius: 30px;
+    }
+
+    .search-bar svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      border: none;
+      outline: none;
+      font-size: 18px;
+      color: #fff;
+      width: 100%;
+      background: transparent;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .word-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 20px 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .word-entry {
+      background: var(--bg-card);
+      border: solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      padding: 10px 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 80px;
+      min-width: 0;
+    }
+
+    .word-entry span {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .word-entry:active {
+      background: var(--bg-hover);
+    }
+
+    .detail-view {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 20px 16px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .detail-view.visible {
+      display: flex;
+    }
+
+    .back-btn {
+      align-self: flex-start;
+      background: var(--accent);
+      border: solid var(--accent-light);
+      border-width: 2px 2px 5px 2px;
+      border-radius: 30px;
+      color: #fff;
+      font-family: "Manrope", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 10px 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .detail-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .detail-german {
+      font-size: 30px;
+      font-weight: normal;
+      color: var(--text);
+    }
+
+    .bookmark-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bookmark-btn svg {
+      width: 25px;
+      height: 25px;
+      fill: var(--accent);
+      stroke: var(--accent);
+    }
+
+    .bookmark-btn.marked svg {
+      fill: var(--accent-light);
+      stroke: var(--accent-light);
+    }
+
+    .detail-card {
+      background: var(--bg-card);
+      border: solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      border-radius: 20px;
+      padding: 50px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .detail-dialect {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .play-btn {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .play-btn svg {
+      width: 25px;
+      height: 25px;
+      fill: var(--accent);
+    }
+
+    .play-btn:active {
+      opacity: 0.7;
+      fill: var(--accent-light);
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 48px 20px;
+      font-size: 16px;
+      grid-column: 1 / -1;
+    }
+
+    .bottom-nav {
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: sticky;
+      border-top: 3px solid var(--border-nav);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .nav-btn svg path {
+      fill: var(--accent);
+      stroke: var(--accent);
+    }
+
+    .nav-btn.active svg path {
+      fill: var(--accent-light);
+      stroke: var(--accent-light);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <div class="search-container">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="16.5" y1="16.5" x2="22" y2="22" />
+      </svg>
+      <input type="text" class="search-input" placeholder="Suchen..." id="searchInput" autocomplete="off"
+        autocorrect="off" spellcheck="false">
+    </div>
+  </div>
+  <div class="filter-row">
+    <button class="display-btn active" onclick="setDisplay('hochdeutsch', this)">Hochdeutsch</button>
+    <button class="display-btn" onclick="setDisplay('mundart', this)">Mundart</button>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn" onclick="setFilter('az', this)">A–Z</button>
+    <button class="filter-btn" onclick="setFilter('kochen', this)">Kochen</button>
+    <button class="filter-btn" onclick="setFilter('orte', this)">Orte</button>
+    <button class="filter-btn" onclick="setFilter('tiere', this)">Tiere</button>
+  </div>
+
+
+  <div class="word-list" id="wordList"></div>
+
+  <div class="detail-view" id="detailView" onclick="handleDetailBackdropClick(event)">
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="navigateTo('index.html')" aria-label="Home">
+      <svg viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.56688 15C1.0669 15 0.271494 15.1137 0.0669067 14.5C-0.231878 13.6037 0.566881 13 0.566881 13L14.0669 0.5C14.0669 0.5 14.7534 0 15.0669 0C15.3804 0 16.0669 0.5 16.0669 0.5L29.5669 13C29.5669 13 30.3937 13.8464 30.0669 14.5C29.7401 15.1536 29.0669 15 28.5669 15H25.5669V19.5V24C25.5669 24 25.5669 26 25.0669 26.5C24.5669 27 22.5669 27 22.5669 27H7.56689C7.56689 27 5.60993 27.043 5.06689 26.5C4.52386 25.957 4.56689 24 4.56689 24L4.56688 15H1.56688Z" />
+      </svg>
+    </button>
+    <button class="nav-btn active" aria-label="Suche">
+      <svg viewBox="0 0 28 31" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M16.5518 15.5547C16.8565 15.9153 17.2927 16.4316 17.8164 17.0537C18.864 18.2981 20.264 19.9663 21.6729 21.6602C23.0819 23.3542 24.4993 25.0728 25.582 26.4199C26.1237 27.0939 26.5791 27.6734 26.9082 28.1084C27.073 28.3262 27.2042 28.5046 27.2969 28.6396C27.3433 28.7072 27.3775 28.761 27.4014 28.8008C27.4291 28.847 27.431 28.8555 27.4258 28.8408C27.5685 29.2459 27.6165 29.5233 27.5898 29.7305C27.5666 29.9104 27.4817 30.0758 27.248 30.2529C26.7451 30.6342 26.0338 30.7794 25.3613 30.2559C25.3375 30.2371 25.2676 30.1709 25.1416 30.0352C25.0224 29.9067 24.8694 29.7344 24.6865 29.5234C24.3209 29.1018 23.8434 28.533 23.292 27.8672C22.1894 26.5359 20.7974 24.8216 19.4316 23.127C18.0662 21.4327 16.7272 19.7591 15.7295 18.5088C15.2306 17.8836 14.8171 17.3639 14.5283 17.001C14.4725 16.9308 14.4212 16.8667 14.375 16.8086C15.1024 16.3963 15.7692 15.898 16.3584 15.3262C16.4151 15.3933 16.4799 15.4696 16.5518 15.5547ZM9.36719 0.40332C14.3396 0.40332 18.332 4.2096 18.332 8.85742C18.332 11.0004 17.4861 12.959 16.0869 14.4521C15.4677 15.1129 14.7407 15.6831 13.9307 16.1357L13.5781 16.3223C12.3238 16.9529 10.8905 17.3105 9.36719 17.3105C4.39513 17.3103 0.403467 13.505 0.40332 8.85742C0.40332 4.20975 4.39504 0.403567 9.36719 0.40332Z"
+          stroke="#8CD0D3" stroke-width="0" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('marked.html')" aria-label="Gespeichert">
+      <svg viewBox="0 0 20 33" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 30.9363V1.5H18.1051V30.9363L9.66183 22.0768L1.5 30.9363Z" stroke="#44869A" stroke-width="2"
+          stroke-linejoin="round" />
+      </svg>
+
+    </button>
+    <button class="nav-btn" onclick="navigateTo('settings.html')" aria-label="Einstellungen">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M28.7837 19.5495C28.7837 24.7966 24.7488 29.0502 19.7715 29.0502M28.7837 19.5495C28.7837 14.3024 24.7488 10.0488 19.7715 10.0488M28.7837 19.5495H35.3232M19.7715 29.0502C14.7941 29.0502 10.7592 24.7966 10.7592 19.5495M19.7715 29.0502V35.7006M10.7592 19.5495C10.7592 14.3024 14.7941 10.0488 19.7715 10.0488M10.7592 19.5495H4M19.7715 10.0488V4M13.3928 12.8378L8.92358 7.92383M30.7946 31.9268L25.6294 26.7696M26.1501 12.8378L30.7946 7.92383M8.92358 31.9268L13.4629 26.3343"
+          stroke="#44869A" stroke-width="8" stroke-linecap="round" />
+      </svg>
+
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    let allEntries = [];
+    let activeFilter = null;
+    let displayMode = 'hochdeutsch';
+
+    function setDisplay(mode, btn) {
+      displayMode = mode;
+      document.querySelectorAll('.display-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    }
+
+    const KOCHEN = new Set([
+      'Abendessen', 'Ackerbohne', 'Ackersalat', 'anbraten', 'Apfelkuchen', 'Apfelmus',
+      'Apfelsine', 'Apfelwein', 'aufgehen (Hefeteig)', 'Aufgehen (Hefeteig)', 'ausbacken',
+      'ausrollen (Teig)', 'Bärlauch', 'Béchamelsauce', 'Bündnerfleisch', 'Backblech', 'backen',
+      'Backfisch', 'Backform', 'Backmenge', 'Backofen', 'Backpulver', 'Backstube', 'Bauernbrot',
+      'Beere', 'Beinschinken', 'Birne', 'Birne, wilde', 'Birnenblüte', 'Birnenwein',
+      'Birnschnaps', 'Blätterteig', 'Blutwurst', 'Bohne', 'Bohne, weisse', 'Bohnenkraut',
+      'Bohnenstange', 'Bouillon', 'Branntwein', 'braten', 'Braten', 'braten, langsam',
+      'braten, leicht', 'Brathähnchen', 'Bratröhre (im Ofen)', 'Brei', 'breiig', 'Brombeere',
+      'Brot', 'Brot, das Weiche vom ~', 'Brot, eingebrocktes', 'Brot, selbstgebackenes',
+      'Brotanschnitt', 'Brotkrügelchen', 'Brotrinde', 'Brotschaufel', 'Brotscheibe',
+      'Brotstückchen, eingetauchtes', 'Brotverträger', 'Butter', 'Butterbrot', 'Butterform',
+      'Buttersauce', 'Buttersemmel', 'Butterstock', 'butterweich', 'Dampfkochtopf', 'Dampfnudel',
+      'Dessert', 'Baslerwein', 'Aronstabschnaps'
+    ]);
+
+    const TIERE = new Set([
+      'Aal', 'Ameise', 'Amsel', 'Auerhahn', 'Barri (Hundename)', 'Biene', 'Bienenhaus',
+      'Bienenstock', 'Bienenvater', 'Bienenzüchter', 'Blindschleiche', 'Blässhuhn', 'Bock',
+      'Bockkäfer (schwarzer)', 'Brillenschlange', 'Brummbär', 'Dalmatinerhund', 'Distelfink'
+    ]);
+
+    const ORTE = new Set([
+      'Aeschenplatz', 'Aeschentor', 'Aeschenvorstadt', 'Anwil', 'Arboldswil', 'Arlesheim',
+      'Bachlettenquartier', 'Badeanstalt Breite', 'Badeanstalt Sankt Johann', 'Badeplatz',
+      'Barfüsserplatz', 'Bellinzona', 'Berlin', 'Bern', 'Bettingen', 'Binningen', 'Birsfelden',
+      'Birsigtal', 'Blotzheim', 'Bonfol', 'Bottmingen', 'Breitequartier', 'Bruderholz', 'Brüglingen',
+      'Bewohner der Freien Strasse', 'Bewohner der Gerbergasse',
+      'Bewohner der Sankt Johanns-Vorstadt', 'Bewohner der Spalenvorstadt',
+      'Bewohner der Steinenvorstadt', 'Bewohner des Breitequartiers',
+      'Bewohner des Gundeldingerquartiers', 'Bewohner des Kantons Zürich',
+      'Bewohner des Sankt Alban- Quartiers', 'Bewohner des Sankt Johann-Quartiers',
+      'Bewohner von Riehen', 'Colmar', 'Delsberg', 'Rhein'
+    ]);
+
+    function esc(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function setFilter(filter, btn) {
+      if (activeFilter === filter) {
+        activeFilter = null;
+        btn.classList.remove('active');
+      } else {
+        activeFilter = filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      applyFilters();
+    }
+
+    function matchesFilter(entry) {
+      if (activeFilter === 'az') return true;
+      if (activeFilter === 'kochen') return KOCHEN.has(entry.german);
+      if (activeFilter === 'orte') return ORTE.has(entry.german) || entry.german.startsWith('Bewohner');
+      if (activeFilter === 'tiere') return TIERE.has(entry.german);
+      return false;
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!activeFilter && !q) {
+        renderList([]);
+        return;
+      }
+      let entries = activeFilter ? allEntries.filter(matchesFilter) : allEntries;
+      if (q) {
+        entries = entries.filter(e =>
+          e.german.toLowerCase().includes(q) ||
+          e.baseldeutsch.some(w => w.toLowerCase().includes(q))
+        );
+      }
+      renderList(entries);
+    }
+
+    function renderList(entries) {
+      const list = document.getElementById('wordList');
+      if (entries.length === 0) {
+        list.innerHTML = '<div class="no-results">Keine Ergebnisse gefunden</div>';
+        return;
+      }
+      list.innerHTML = entries.map((entry, i) => {
+        const label = displayMode === 'mundart' ? esc(entry.baseldeutsch[0]) : esc(entry.german);
+        return `<div class="word-entry" onclick="openDetail(${allEntries.indexOf(entry)})"><span>${label}</span></div>`;
+      }).join('');
+    }
+
+    function getMarked() {
+      return JSON.parse(localStorage.getItem('markedWords') || '[]');
+    }
+
+    function isMarked(german) {
+      return getMarked().some(w => w.german === german);
+    }
+
+    function toggleMark(index) {
+      const entry = allEntries[index];
+      let words = getMarked();
+      const i = words.findIndex(w => w.german === entry.german);
+      if (i >= 0) {
+        words.splice(i, 1);
+      } else {
+        words.push({ german: entry.german, baseldeutsch: entry.baseldeutsch });
+      }
+      localStorage.setItem('markedWords', JSON.stringify(words));
+      const btn = document.getElementById('markBtn');
+      if (btn) btn.classList.toggle('marked', i < 0);
+    }
+
+    function openDetail(index) {
+      const entry = allEntries[index];
+      const view = document.getElementById('detailView');
+      const marked = isMarked(entry.german);
+      view.innerHTML =
+        `<button class="back-btn" onclick="closeDetail(); event.stopPropagation();">Zurück</button>
+        <div class="detail-title-row">
+          <div class="detail-german">${esc(entry.german)}</div>
+          <button class="bookmark-btn${marked ? ' marked' : ''}" id="markBtn" onclick="toggleMark(${index}); event.stopPropagation();" aria-label="Speichern">
+            <svg width="20" height="33" viewBox="0 0 20 33" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 30.9363V1.5H18.1051V30.9363L9.66183 22.0768L1.5 30.9363Z" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>` +
+        entry.baseldeutsch.map(word => `
+        <div class="detail-card">
+          <span class="detail-dialect">${esc(word)}</span>
+          <button class="play-btn" onclick="speak('${word.replace(/'/g, "\\'")}'); event.stopPropagation();" aria-label="Aussprechen">
+            <svg viewBox="0 0 22 27"  xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.88415 25.7339C4.88415 25.7339 2.37145 26.7354 0.869298 25.7339C-0.223618 25.0053 0.0241017 21.9304 0.0241017 21.9304V3.75807C0.0241017 3.75807 0.0241017 1.27692 1.29198 0.377234C2.98243 -0.822303 5.72937 1.22239 5.72937 1.22239L20.4152 10.5199C20.4152 10.5199 22 11.7878 22 13.0556C22 14.3234 19.9925 16.0138 19.9925 16.0138L4.88415 25.7339Z"/>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+      document.getElementById('wordList').style.display = 'none';
+      document.querySelectorAll('.search-container, .filter-row').forEach(el => el.style.display = 'none');
+      view.classList.add('visible');
+    }
+
+    function closeDetail() {
+      document.getElementById('detailView').classList.remove('visible');
+      document.getElementById('wordList').style.display = 'grid';
+      document.querySelectorAll('.search-container, .filter-row').forEach(el => el.style.display = '');
+    }
+
+    function handleDetailBackdropClick(e) {
+      if (e.target === document.getElementById('detailView') || e.target.classList.contains('detail-card')) closeDetail();
+    }
+
+    function speak(word) {
+      if (!window.speechSynthesis) return;
+      const utt = new SpeechSynthesisUtterance(word);
+      utt.lang = 'de-CH';
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utt);
+    }
+
+    fetch('baseldeutsch.json')
+      .then(r => r.json())
+      .then(data => {
+        allEntries = data.sort((a, b) => a.german.localeCompare(b.german, 'de'));
+        applyFilters();
+      })
+      .catch(() => {
+        document.getElementById('wordList').innerHTML =
+          '<div class="no-results">Daten konnten nicht geladen werden.</div>';
+      });
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+      closeDetail();
+      applyFilters();
+    });
+  </script>
+
+</body>
+
+</html>

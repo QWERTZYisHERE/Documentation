@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet">
+  <meta charset="UTF-8">
+  <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Gespeichert</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      max-width: 393px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100dvh;
+      color: var(--text);
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+    .top-bar {
+      background: var(--bg);
+      height: 30px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* ── View system ── */
+    .view {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* ── List view ── */
+    .uben-container {
+      padding: 14px 20px 0px;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .uben-btn {
+      display: flex;
+      align-items: center;
+      background: var(--accent-light);
+      border: solid var(--light);
+      border-width: 2px 2px 5px 2px;
+      padding: 12px 260px 12px 12px;
+      gap: 12px;
+      border-radius: 30px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 4px 4px rgba(34, 132, 193, 0.25));
+    }
+
+    .uben-btn:active {
+      filter: brightness(0.85);
+    }
+
+    .uben-label {
+      font-family: "Manrope", sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .uben-btn>svg {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+      fill: #FFE7DF;
+      flex-shrink: 0;
+    }
+
+    .word-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .word-entry {
+      background: var(--bg-card);
+      border: solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      padding: 10px 7px 10px 14px;
+      color: var(--text);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      filter: drop-shadow(0 4px 4px rgba(34, 132, 193, 0.25));
+    }
+
+    .word-labels {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .word-labels .entry-german {
+      font-size: 18px;
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .word-labels .entry-dialect {
+      font-size: 18px;
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .remove-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 48px 20px;
+      font-size: 16px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 20px 0;
+      flex-shrink: 0;
+    }
+
+    .filter-btn {
+      border-width: 2px 2px 5px 2px;
+      border-style: solid;
+      border-color: var(--border);
+      background: transparent;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 20px;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 4px 4px rgba(34, 132, 193, 0.25));
+    }
+
+    .filter-btn.active {
+      background: var(--accent-light);
+      border-color: var(--light);
+      color: #fff;
+      
+    }
+
+    /* ── Exercise view ── */
+    .card-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .exercise-card,
+    .card-shadow {
+      position: absolute;
+      width: 282px;
+      height: 282px;
+      background: var(--bg-card);
+      border: solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      border-radius: 40px;
+    }
+
+    .card-shadow-2 {
+      transform: translateY(-14px) scale(0.91);
+      z-index: 1;
+    }
+
+    .card-shadow-1 {
+      transform: translateY(-7px) scale(0.96);
+      z-index: 2;
+    }
+
+    .card-area {
+      perspective: 1200px;
+    }
+
+    .exercise-card {
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 4px 4px rgba(34, 132, 193, 0.25));
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+
+    .exercise-card.jump {
+      animation: cardJump 0.6s ease-out;
+    }
+
+    @keyframes cardJump {
+      0%   { transform: translateY(0) scale(1); }
+      30%  { transform: translateY(-24px) scale(1.04); }
+      55%  { transform: translateY(0) scale(0.97); }
+      75%  { transform: translateY(-9px) scale(1.01); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .card-word {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .spoken-feedback {
+      height: 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 0 30px;
+      flex-shrink: 0;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 0 30px 10px;
+      flex-shrink: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 0 30px 60px;
+      flex-shrink: 0;
+    }
+
+    .mic-btn,
+    .wrong-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mic-btn svg,
+    .wrong-btn svg {
+      width: 112px;
+      height: auto;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 0px rgba(69, 173, 79, 0.5));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 10px rgba(69, 173, 79, 0.8));
+      }
+    }
+
+    .mic-btn.listening svg {
+      animation: pulse 1s infinite;
+    }
+
+    .mic-btn:disabled {
+      opacity: 0.4;
+    }
+
+    /* ── Results view ── */
+    .results-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 40px;
+    }
+
+    .results-title-wrap {
+      position: relative;
+      align-self: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .results-title {
+      font-size: 50px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0;
+      letter-spacing: -0.01em;
+      max-width: 300px;
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0);
+      animation: sparkle-twinkle 1.6s ease-in-out infinite;
+    }
+
+    .sparkle svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .sparkle svg path {
+      fill: var(--accent-light);
+      stroke: var(--light);
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+    }
+
+    @keyframes sparkle-twinkle {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .results-title .letter {
+      display: inline-block;
+      animation: wave 0.6s ease-in-out;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    .results-score {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .result-correct {
+      color: var(--result-correct);
+    }
+
+    .result-wrong {
+      color: var(--result-wrong);
+    }
+
+    .results-back {
+      background: none;
+      border: none;
+      font-size: 50px;
+      font-weight: 400;
+      color: var(--text);
+      margin-top: 32px;
+      cursor: pointer;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      border-top: 3px solid var(--border-nav);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .nav-btn svg path {
+      fill: var(--accent);
+      stroke: var(--accent);
+    }
+
+    .nav-btn.active svg path {
+      fill: var(--accent-light);
+      stroke: var(--light);
+      filter: drop-shadow(0 4px 4px rgba(44, 169, 247, 0.25));
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <!-- View 1: Saved word list -->
+  <div class="view active" id="listView">
+    <div class="uben-container">
+      <button class="uben-btn" onclick="startUeben()">
+        <svg viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M4.88415 25.7339C4.88415 25.7339 2.37145 26.7354 0.869298 25.7339C-0.223618 25.0053 0.0241017 21.9304 0.0241017 21.9304V3.75807C0.0241017 3.75807 0.0241017 1.27692 1.29198 0.377234C2.98243 -0.822303 5.72937 1.22239 5.72937 1.22239L20.4152 10.5199C20.4152 10.5199 22 11.7878 22 13.0556C22 14.3234 19.9925 16.0138 19.9925 16.0138L4.88415 25.7339Z"
+             />
+        </svg>
+        <span class="uben-label">Üben</span>
+      </button>
+    </div>
+    <div class="word-list" id="wordList"></div>
+  </div>
+
+  <!-- View 2: Card exercise -->
+  <div class="view" id="exerciseView">
+    <div class="card-area">
+      <div class="card-shadow card-shadow-2" id="cardShadow2"></div>
+      <div class="card-shadow card-shadow-1" id="cardShadow1"></div>
+      <div class="exercise-card" id="exerciseCard" onclick="peekDialect()">
+        <span class="card-word" id="cardWord"></span>
+      </div>
+    </div>
+    <div class="spoken-feedback" id="spokenFeedback"></div>
+    <div class="progress-text" id="progressText"></div>
+    <div class="action-buttons">
+      <button class="mic-btn" id="micBtn" onclick="startVoice()">
+        <svg width="135" height="132" viewBox="0 0 135 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.76387 7.45258C13.5142 0.698902 23.412 0.050682 23.412 0.050682H108.003C108.003 0.050682 117.553 -1.09008 126.901 7.45257C135 14.8546 135 27.4378 135 27.4378V100.223C135 100.223 135 112.489 126.901 120.949C116.979 131.311 108.003 131.311 108.003 131.311H23.412C23.412 131.311 15.7632 131.311 6.76369 120.949C-0.558053 112.518 0.0145173 100.47 0.0145173 100.47V28.178C0.0145173 28.178 -0.635517 14.8556 6.76387 7.45258Z"
+            fill="#45AD4F" />
+          <path
+            d="M67.3422 27C59.227 27 47.8666 32.2692 47.8663 32.8044C47.866 33.3396 47.8663 33.6517 47.8663 33.6517V81.4764V81.9C47.8663 82.1799 59.0909 87.8623 67.0539 87.8623C75.017 87.8623 86.8181 82.3236 86.8181 81.9V81.4764V33.6517V32.8044C86.8181 32.0845 75.4575 27 67.3422 27Z"
+            fill="white" stroke="white" stroke-width="1.79594" stroke-linejoin="round" />
+          <path
+            d="M71.9676 99.5746V75.8096C71.9676 75.8096 69.124 76.3964 67.4778 76.3964C65.8315 76.3964 63.2872 75.8096 63.2872 75.8096V99.5746H56.7638C56.7638 99.5746 56.1018 99.6951 55.7781 100.034C55.4545 100.374 55.5049 100.775 55.5049 100.775V103.367C55.5049 103.367 55.3911 104.516 55.7781 104.903C56.2098 105.336 57.1631 105.443 57.1631 105.443H78.2973C78.2973 105.443 79.1627 105.349 79.5144 104.903C79.7923 104.552 79.75 104.295 79.75 104.295V100.643C79.75 100.643 79.7616 100.371 79.5144 100.034C79.1783 99.5774 78.2973 99.5746 78.2973 99.5746H71.9676Z"
+            fill="white" stroke="white" stroke-width="1.79594" stroke-miterlimit="1" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M36.3022 44.0415C30.216 53.7795 30.8246 62.9088 36.3022 70.0826" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M28.3901 37.9551C21.5612 52.521 22.2441 66.1765 28.3901 76.907" stroke="white" stroke-width="3.59188"
+            stroke-linecap="round" />
+          <path d="M19.8691 33.0864C13.0402 51.2938 13.7231 68.3633 19.8691 81.7763" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M98.9902 44.0415C105.076 53.7795 104.468 62.9088 98.9902 70.0826" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M106.903 37.9551C113.732 52.521 113.049 66.1765 106.903 76.907" stroke="white" stroke-width="3.59188"
+            stroke-linecap="round" />
+          <path d="M115.423 33.0864C122.252 51.2938 121.569 68.3633 115.423 81.7763" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button class="wrong-btn" onclick="handleWrong()">
+        <svg width="135" height="132" viewBox="0 0 135 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.76387 7.45258C13.5142 0.698902 23.412 0.050682 23.412 0.050682H108.003C108.003 0.050682 117.553 -1.09008 126.901 7.45257C135 14.8546 135 27.4378 135 27.4378V100.223C135 100.223 135 112.489 126.901 120.949C116.979 131.311 108.003 131.311 108.003 131.311H23.412C23.412 131.311 15.7632 131.311 6.76369 120.949C-0.558053 112.518 0.0145173 100.47 0.0145173 100.47V28.178C0.0145173 28.178 -0.635517 14.8556 6.76387 7.45258Z"
+            fill="#8E2C2C" />
+          <path d="M33 93L68.0948 63.5M103.19 34L68.0948 63.5M68.0948 63.5L33 34M68.0948 63.5L103.19 93" stroke="white"
+            stroke-width="16.2759" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- View 3: Results -->
+  <div class="view" id="resultsView">
+    <div class="results-content">
+      <div class="results-title-wrap" id="resultsTitleWrap">
+        <div class="results-title" id="resultsTitle"></div>
+      </div>
+      <div class="results-score">Richtig: <span class="result-correct" id="resultCorrect">0</span></div>
+      <div class="results-score">Falsch: <span class="result-wrong" id="resultWrong">0</span></div>
+      <button class="spec-btn" onclick="backToList()"> Weiter</button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="navigateTo('index.html')" aria-label="Home">
+      <svg viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.56688 15C1.0669 15 0.271494 15.1137 0.0669067 14.5C-0.231878 13.6037 0.566881 13 0.566881 13L14.0669 0.5C14.0669 0.5 14.7534 0 15.0669 0C15.3804 0 16.0669 0.5 16.0669 0.5L29.5669 13C29.5669 13 30.3937 13.8464 30.0669 14.5C29.7401 15.1536 29.0669 15 28.5669 15H25.5669V19.5V24C25.5669 24 25.5669 26 25.0669 26.5C24.5669 27 22.5669 27 22.5669 27H7.56689C7.56689 27 5.60993 27.043 5.06689 26.5C4.52386 25.957 4.56689 24 4.56689 24L4.56688 15H1.56688Z" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('lexikon.html')" aria-label="Suche">
+      <svg viewBox="0 0 32 35" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M11.3672 1C17.0396 1 21.7354 5.3614 21.7354 10.8574C21.7353 13.0633 20.9721 15.0954 19.6934 16.7314C19.9937 17.0871 20.4038 17.5733 20.8896 18.1504C21.9383 19.396 23.3407 21.066 24.752 22.7627C26.1624 24.4585 27.5855 26.1845 28.6758 27.541C29.2202 28.2184 29.6868 28.8093 30.0283 29.2607C30.1984 29.4856 30.3437 29.6839 30.4541 29.8447C30.509 29.9247 30.5603 30.0046 30.6045 30.0781C30.6218 30.1069 30.6466 30.1491 30.6729 30.2002L30.75 30.375L30.8643 30.7314C30.9687 31.1009 31.0342 31.5036 30.9814 31.9111C30.9024 32.5217 30.5799 33.0046 30.0967 33.3711C29.218 34.0373 27.793 34.3699 26.5 33.3633C26.3731 33.2645 26.2293 33.1143 26.1133 32.9893C25.9787 32.8442 25.8135 32.6587 25.626 32.4424C25.2501 32.0089 24.7646 31.4312 24.2109 30.7627C23.1023 29.4241 21.7058 27.7039 20.3389 26.0078C18.9715 24.3111 17.6314 22.6351 16.6328 21.3838C16.1511 20.7801 15.7483 20.2752 15.4609 19.9141C14.203 20.4285 12.8186 20.7139 11.3672 20.7139C5.69512 20.7136 1.00015 16.3532 1 10.8574C1 5.36156 5.69504 1.00025 11.3672 1Z"
+          stroke-width="1" />
+      </svg>
+    </button>
+    <button class="nav-btn active" onclick="navigateTo('marked.html')" aria-label="Gespeichert">
+      <svg viewBox="0 0 41 38" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21.7823 6.01335L21.8667 6.07177C22.2672 6.38219 22.3754 6.95192 22.1014 7.3911L18.6964 12.8486L27.3885 18.2717L30.7935 12.8142C31.0859 12.3456 31.7027 12.2027 32.1713 12.4951L39.2544 16.9143C39.7229 17.2066 39.8658 17.8235 39.5735 18.292L36.1685 23.7496L39.0981 25.5774C39.5667 25.8698 39.7096 26.4866 39.4172 26.9551L35.9047 32.585C35.6123 33.0533 34.9954 33.1963 34.527 32.9041L31.5973 31.0762L28.6141 35.8577C28.3217 36.3261 27.7049 36.4691 27.2364 36.1768L20.1533 31.7576C19.6848 31.4653 19.542 30.8484 19.8342 30.3798L22.8174 25.5984L14.1252 20.1753L11.1421 24.9568C10.8497 25.4252 10.2328 25.5681 9.76432 25.2759L1.97282 20.4147C1.50431 20.1224 1.36153 19.5055 1.65374 19.0369L4.63692 14.2555L1.4711 12.2803C1.00263 11.988 0.859904 11.3711 1.15202 10.9026L4.66453 5.27271C4.95687 4.80414 5.57371 4.66128 6.04228 4.95362L9.20809 6.9288L12.6131 1.47127C12.9054 1.0027 13.5223 0.859841 13.9908 1.15218L21.7823 6.01335Z"
+          stroke-width="1" stroke-linejoin="round" />
+      </svg>
+
+    </button>
+    <button class="nav-btn" onclick="navigateTo('settings.html')" aria-label="Einstellungen">
+      <svg viewBox="0 0 43 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7137 2.99957C17.7137 4.5 17.7137 8.49959 17.7137 8.49959L16.2135 9.56048C16.2135 9.56048 13.5 6.5 12.2659 5.50879C11.0317 4.51759 8.68417 5.03901 7.5 6C6.31583 6.96099 5.40268 9.36067 6.20134 10.4303C7 11.5 9.64252 14.9755 9.64252 14.9755L8.49954 17.4996C8.49954 17.4996 4 17.5 3 17.4996C2 17.4992 1 20.0922 1 21.7306C1 23.3689 2 25.8185 3 25.89C4 25.9615 8.49954 25.9615 8.49954 25.9615L9.46694 28.4743C9.46694 28.4743 6.5 31.5 5.91521 32.4285C5.33041 33.3569 5.44012 35.9122 6.5 37C7.55988 38.0878 10.6864 38.4991 11.3432 37.9995C12 37.5 15.3949 34.0519 15.3949 34.0519L17.7137 34.4995C17.7137 34.4995 17.5 39.5 17.7137 40.9995C17.9273 42.4991 19.9992 43.5 21.4637 43.5C22.9281 43.5 24.9274 41.9991 25.2137 40.9995C25.5 40 25.2137 34.4995 25.2137 34.4995L26.7137 33.9995C26.7137 33.9995 29.9274 37.4991 30.7137 37.9995C31.5 38.5 34.8284 38.4763 36 37.5C37.1716 36.5237 37 33.9995 36.7138 32.9995C36.4276 31.9995 33.2137 28.4995 33.2137 28.4995L34.2137 25.9615H39.7138C39.7138 25.9615 42 23.3829 42 21.7306C42 20.0783 39.7138 17.4996 39.7138 17.4996H34.2137L33.2137 14.9996C33.2137 14.9996 36 12 36.7138 10.9996C37.4276 9.99917 37.5 8 36.5 6.5C35.5 5 32.4274 4.49915 31.2137 5.49957C30 6.5 26.7137 9.56048 26.7137 9.56048L25.2137 8.49959C25.2137 8.49959 25.2137 4.5 25.2137 2.99957C25.2137 1.49915 23.1233 1 21.4637 1C19.804 1 17.7137 1.49915 17.7137 2.99957ZM21.4637 28.256C25.0761 28.256 28.0045 25.2885 28.0045 21.6278C28.0045 17.9671 25.0761 14.9996 21.4637 14.9996C17.8513 14.9996 14.9228 17.9671 14.9228 21.6278C14.9228 25.2885 17.8513 28.256 21.4637 28.256Z" />
+      </svg>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    // ── State ──
+    let exerciseWords = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let isListening = false;
+    let animating = false;
+    let recognition = null;
+
+    // ── Speech Recognition setup ──
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognitionAPI) {
+      recognition = new SpeechRecognitionAPI();
+      recognition.lang = 'de-CH';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = function (e) {
+        const spoken = e.results[0][0].transcript.trim();
+        setListening(false);
+        document.getElementById('spokenFeedback').textContent = '„' + spoken + '"';
+        setTimeout(function () {
+          document.getElementById('spokenFeedback').textContent = '';
+          checkAnswer(spoken);
+        }, 700);
+      };
+
+      recognition.onerror = function () { setListening(false); };
+      recognition.onend = function () { setListening(false); };
+    } else {
+      document.getElementById('micBtn').disabled = true;
+    }
+
+    function setListening(val) {
+      isListening = val;
+      document.getElementById('micBtn').classList.toggle('listening', val);
+    }
+
+    function startVoice() {
+      if (!recognition || animating) return;
+      if (isListening) { recognition.stop(); return; }
+      setListening(true);
+      try { recognition.start(); } catch (e) { setListening(false); }
+    }
+
+    // ── Answer matching ──
+    function normalize(str) {
+      return str.toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z]/g, '');
+    }
+
+    function levenshtein(a, b) {
+      const m = a.length, n = b.length;
+      if (!m) return n;
+      if (!n) return m;
+      const dp = Array.from({ length: m + 1 }, (_, i) => [i]);
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++)
+        for (let j = 1; j <= n; j++)
+          dp[i][j] = a[i - 1] === b[j - 1]
+            ? dp[i - 1][j - 1]
+            : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      return dp[m][n];
+    }
+
+    function checkAnswer(spoken) {
+      const entry = exerciseWords[currentIndex];
+      const ns = normalize(spoken);
+      const correct = entry.baseldeutsch.some(function (w) {
+        const nw = normalize(w);
+        if (ns === nw) return true;
+        if (ns.includes(nw) || nw.includes(ns)) return true;
+        if (Math.abs(ns.length - nw.length) <= 3 && levenshtein(ns, nw) <= 2) return true;
+        return false;
+      });
+      if (correct) handleCorrect();
+      else handleWrong();
+    }
+
+    // ── Card flow ──
+    function animateCard(direction) {
+      if (animating) return;
+      animating = true;
+      if (isListening) recognition.stop();
+      const card = document.getElementById('exerciseCard');
+      card.style.transition = 'transform 0.36s ease-in, opacity 0.36s ease-in';
+      card.style.transform = direction === 'right'
+        ? 'translateX(160%) rotate(12deg)'
+        : 'translateX(-160%) rotate(-12deg)';
+      card.style.opacity = '0';
+      setTimeout(function () {
+        currentIndex++;
+        if (currentIndex >= exerciseWords.length) {
+          showResults();
+        } else {
+          card.style.transition = 'none';
+          card.style.transform = '';
+          card.style.opacity = '1';
+          void card.offsetWidth;
+          animating = false;
+          showCard();
+        }
+      }, 380);
+    }
+
+    function handleCorrect() { correctCount++; animateCard('left'); }
+    function handleWrong() { wrongCount++; animateCard('right'); }
+
+    let peeking = false;
+
+    function peekDialect() {
+      if (animating || peeking) return;
+      peeking = true;
+
+      const card = document.getElementById('exerciseCard');
+      const wordEl = document.getElementById('cardWord');
+      const entry = exerciseWords[currentIndex];
+      const original = entry.german;
+      const dialect = entry.baseldeutsch[0];
+      const half = 'transform 0.25s ease-in-out';
+
+      // Flip to edge-on, swap to dialect, then flip back to reveal it
+      card.style.transition = half;
+      card.style.transform = 'rotateY(90deg)';
+      setTimeout(function () {
+        wordEl.textContent = dialect;
+        card.style.transform = 'rotateY(0deg)';
+      }, 250);
+
+      // After 2s on screen, flip again to reveal the original word
+      setTimeout(function () {
+        card.style.transform = 'rotateY(90deg)';
+        setTimeout(function () {
+          wordEl.textContent = original;
+          card.style.transform = 'rotateY(0deg)';
+          setTimeout(function () {
+            card.style.transition = '';
+            card.style.transform = '';
+            peeking = false;
+          }, 250);
+        }, 250);
+      }, 2250);
+    }
+
+    function showCard() {
+      const entry = exerciseWords[currentIndex];
+      document.getElementById('cardWord').textContent = entry.german;
+      document.getElementById('progressText').textContent =
+        (currentIndex + 1) + ' / ' + exerciseWords.length;
+      document.getElementById('spokenFeedback').textContent = '';
+      const rem = exerciseWords.length - currentIndex;
+      document.getElementById('cardShadow1').style.visibility = rem > 1 ? 'visible' : 'hidden';
+      document.getElementById('cardShadow2').style.visibility = rem > 2 ? 'visible' : 'hidden';
+
+      // Little jump when a new card appears
+      const card = document.getElementById('exerciseCard');
+      card.classList.remove('jump');
+      void card.offsetWidth; // reflow to restart the animation
+      card.classList.add('jump');
+    }
+
+    function startUeben() {
+      const words = getMarked();
+      if (!words.length) return;
+      exerciseWords = words.slice().sort(function () { return Math.random() - 0.5; });
+      currentIndex = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      animating = false;
+      const card = document.getElementById('exerciseCard');
+      card.style.transition = 'none';
+      card.style.transform = '';
+      card.style.opacity = '1';
+      showView('exercise');
+      showCard();
+    }
+
+    function animateTitle(title, animate) {
+      const titleEl = document.getElementById('resultsTitle');
+      let letterIndex = 0;
+      titleEl.innerHTML = title.split('').map(function(char) {
+        if (char === ' ') return '<div style="flex-basis: 100%; height: 0;"></div>';
+        if (!animate) return '<span>' + esc(char) + '</span>';
+        return '<span class="letter" style="animation-delay: ' + (letterIndex++ * 0.08) + 's">' + esc(char) + '</span>';
+      }).join('');
+    }
+
+    function celebrate(on) {
+      const wrap = document.getElementById('resultsTitleWrap');
+      wrap.querySelectorAll('.sparkle').forEach(function (s) { s.remove(); });
+      if (!on) return;
+
+      const star = '<svg viewBox="0 0 28 28"><path d="M14 1C15 9 19 13 27 14C19 15 15 19 14 27C13 19 9 15 1 14C9 13 13 9 14 1Z"/></svg>';
+      const positions = [
+        { top: '-20px', left: '-16px', size: 26, delay: 0 },
+        { top: '30px', left: '-24px', size: 17, delay: 0.35 },
+        { top: '-6px', left: '40px', size: 13, delay: 0.7 },
+        { bottom: '2px', right: '-18px', size: 26, delay: 0.18 },
+        { bottom: '40px', right: '-8px', size: 17, delay: 0.5 },
+        { bottom: '-8px', right: '46px', size: 13, delay: 0.85 }
+      ];
+      positions.forEach(function (p) {
+        const el = document.createElement('div');
+        el.className = 'sparkle';
+        el.style.width = p.size + 'px';
+        el.style.height = p.size + 'px';
+        if (p.top) el.style.top = p.top;
+        if (p.left) el.style.left = p.left;
+        if (p.bottom) el.style.bottom = p.bottom;
+        if (p.right) el.style.right = p.right;
+        el.style.animationDelay = p.delay + 's';
+        el.innerHTML = star;
+        wrap.appendChild(el);
+      });
+    }
+
+    function showResults() {
+      animating = false;
+      const total = correctCount + wrongCount;
+      const pct = total > 0 ? correctCount / total : 0;
+      const title = pct >= 0.8 ? 'Gut gemacht!' : pct >= 0.4 ? 'Nicht schlecht' : 'Es geht besser';
+      animateTitle(title, pct >= 0.4);
+      celebrate(pct >= 0.8);
+      document.getElementById('resultCorrect').textContent = correctCount;
+      document.getElementById('resultWrong').textContent = wrongCount;
+      showView('results');
+    }
+
+    function backToList() {
+      showView('list');
+      render();
+    }
+
+    function showView(name) {
+      ['list', 'exercise', 'results'].forEach(function (v) {
+        document.getElementById(v + 'View').classList.toggle('active', v === name);
+      });
+    }
+
+    // ── List / storage ──
+    function esc(text) {
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function getMarked() {
+      return JSON.parse(localStorage.getItem('markedWords') || '[]');
+    }
+
+    function removeMarked(german) {
+      const words = getMarked().filter(function (w) { return w.german !== german; });
+      localStorage.setItem('markedWords', JSON.stringify(words));
+      render();
+    }
+
+    function render() {
+      const words = getMarked();
+      const list = document.getElementById('wordList');
+      if (!words.length) {
+        list.innerHTML = '<div class="no-results">Keine gespeicherten Wörter</div>';
+        return;
+      }
+      list.innerHTML = words.map(function (w) {
+        return '<div class="word-entry">'
+          + '<div class="word-labels">'
+          + '<span class="entry-german">' + esc(w.german) + '</span>'
+          + '<span class="entry-dialect">' + esc(w.baseldeutsch[0]) + '</span>'
+          + '</div>'
+          + '<button class="remove-btn" onclick="removeMarked(\'' + w.german.replace(/'/g, "\\'") + '\')" aria-label="Entfernen">'
+          + '<svg viewBox="0 0 22 6" fill="none"><rect x="0" y="0" width="17" height="4" rx="1" fill="#C0392B"/></svg>'
+          + '</button></div>';
+      }).join('');
+    }
+
+    render();
+  </script>
+
+</body>
+
+</html>

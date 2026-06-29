@@ -1,0 +1,93 @@
+@keyframes page-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes page-exit {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+body {
+  animation: page-enter 0.3s ease both;
+}
+
+body.exiting {
+  animation: page-exit 0.22s ease both;
+}
+
+/* ─────────────────────────────────────────
+   Color tokens — edit here to restyle the app
+   ───────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg:             #ffffff;
+  --bg-card:        #ffffff;
+  --bg-hover:       #e8e4e4;
+
+  /* Borders */
+  --border:         #C8C0C0;
+  --border-nav:     #DEDAD9;
+
+  /* Text */
+  --text:           #1C1C1C;
+  --text-muted:     #777777;
+  --text-dim:       #999999;
+
+  /* Accent — same in both modes */
+  --accent:         #c57525;
+  --accent-light:   #ffde38;
+
+  /* Semantic */
+  --result-correct: #4a7c44;
+  --result-wrong:   #c0392b;
+
+  /* Map */
+  --map-extrude:    #c57525;   /* extruded 3-D side areas */
+  --map-border:     #1E2C3C;   /* map outline stroke */
+  --map-lock-bg:    #ffffff;   /* lock circle background */
+  --map-lock-ring:  #1E2C3C;   /* lock ring / body / shackle */
+  --map-lock-hole:  #ffffff;   /* keyhole cut-out (matches bg) */
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg:             #4C4848;
+  --bg-card:        #4C4848;
+  --bg-hover:       #555555;
+
+  /* Borders */
+  --border:         #A29595;
+  --border-nav:     #776E6E;
+
+  /* Text */
+  --text:           #ffffff;
+  --text-muted:     #888888;
+  --text-dim:       #aaaaaa;
+
+  /* Map */
+  --map-extrude:    #413A3A;
+  --map-border:     #A29595;
+  --map-lock-bg:    #4C4848;
+  --map-lock-ring:  #A29595;
+  --map-lock-hole:  #4C4848;
+}
+
+.spec-btn {
+  border-width: 2px 2px 5px 2px;
+  border-style: solid;
+  border-color: var(--border);
+  color: var(--text);
+  font-family: "Manrope", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 7px 10px;
+  cursor: pointer;
+  border-radius: 30px;
+  white-space: nowrap;
+  background: var(--accent);
+  border-color: var(--accent-light);
+  color: #fff;
+  width: 120px;
+  margin-top: 20px;
+}

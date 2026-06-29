@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Gespeichert</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: #4C4848;
+      display: flex;
+      flex-direction: column;
+      max-width: 393px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100dvh;
+      color: #fff;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+
+    .top-bar {
+      background: #4C4848;
+      height: 30px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* ── View system ── */
+    .view {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* ── List view ── */
+    .uben-container {
+      padding: 14px 20px 0px;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .uben-btn {
+      display: flex;
+      align-items: center;
+      background: #44869A;
+      border: solid #8CD1D3;
+      border-width: 2px 2px 5px 2px;
+      padding: 12px 260px 12px 12px;
+      gap: 12px;
+      border-radius: 30px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .uben-btn:active {
+      background: #555;
+    }
+
+    .uben-label {
+      font-family: "Manrope", sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .uben-btn>svg {
+      width: 15px;
+      height: 15px;
+      margin-left: 5px;
+      fill: #8CD1D3;
+      flex-shrink: 0;
+    }
+
+    .word-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .word-entry {
+      background: #4C4848;
+      border: solid #A29595;
+      border-width: 2px 2px 5px 2px;
+      padding: 7px 7px 7px 14px;
+      font-size: 18px;
+      color: #fff;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .word-entry span {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .remove-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #888;
+      padding: 48px 20px;
+      font-size: 16px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 20px 0;
+      flex-shrink: 0;
+    }
+
+    .filter-btn {
+      border-width: 2px 2px 5px 2px;
+      border-style: solid;
+      border-color: #A29595;
+      background: transparent;
+      color: #fff;
+      font-family: "Manrope", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 20px;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .filter-btn.active {
+      background: #44869A;
+      border-color: #8CD1D3;
+    }
+
+    /* ── Exercise view ── */
+    .card-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .exercise-card,
+    .card-shadow {
+      position: absolute;
+      width: 282px;
+      height: 282px;
+      background: #4C4848;
+      border: solid #A29595;
+      border-width: 2px 2px 5px 2px;
+      border-radius: 40px;
+    }
+
+    .card-shadow-2 {
+      transform: translateY(-14px) scale(0.91);
+      z-index: 1;
+    }
+
+    .card-shadow-1 {
+      transform: translateY(-7px) scale(0.96);
+      z-index: 2;
+    }
+
+    .exercise-card {
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-word {
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .spoken-feedback {
+      height: 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #888;
+      text-align: center;
+      padding: 0 30px;
+      flex-shrink: 0;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #aaa;
+      text-align: center;
+      padding: 0 30px 10px;
+      flex-shrink: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 0 30px 60px;
+      flex-shrink: 0;
+    }
+
+    .mic-btn,
+    .wrong-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mic-btn svg,
+    .wrong-btn svg {
+      width: 112px;
+      height: auto;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 0px rgba(69, 173, 79, 0.5));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 10px rgba(69, 173, 79, 0.8));
+      }
+    }
+
+    .mic-btn.listening svg {
+      animation: pulse 1s infinite;
+    }
+
+    .mic-btn:disabled {
+      opacity: 0.4;
+    }
+
+    /* ── Results view ── */
+    .results-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 40px;
+    }
+
+    .results-title {
+      font-size: 50px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 28px;
+      line-height: 1.1;
+    }
+
+    .results-score {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .result-correct {
+      color: #4a7c44;
+    }
+
+    .result-wrong {
+      color: #c0392b;
+    }
+
+    .results-back {
+      background: none;
+      border: none;
+      font-size: 50px;
+      font-weight: 400;
+      color: #fff;
+      margin-top: 32px;
+      cursor: pointer;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      background: #4C4848;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      border-top: 3px solid #776E6E;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #44869A;
+      stroke: #44869A;
+    }
+
+    .nav-btn.active svg {
+      fill: #8CD1D3;
+      stroke: #8CD1D3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <!-- View 1: Saved word list -->
+  <div class="view active" id="listView">
+    <div class="uben-container">
+      <button class="uben-btn" onclick="startUeben()">
+        <svg viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M4.88415 25.7339C4.88415 25.7339 2.37145 26.7354 0.869298 25.7339C-0.223618 25.0053 0.0241017 21.9304 0.0241017 21.9304V3.75807C0.0241017 3.75807 0.0241017 1.27692 1.29198 0.377234C2.98243 -0.822303 5.72937 1.22239 5.72937 1.22239L20.4152 10.5199C20.4152 10.5199 22 11.7878 22 13.0556C22 14.3234 19.9925 16.0138 19.9925 16.0138L4.88415 25.7339Z"
+             />
+        </svg>
+        <span class="uben-label">Üben</span>
+      </button>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active" id="filterMundart" onclick="setDisplay('mundart', this)">Mundart</button>
+      <button class="filter-btn" id="filterHochdeutsch" onclick="setDisplay('hochdeutsch', this)">Hochdeutsch</button>
+    </div>
+    <div class="word-list" id="wordList"></div>
+  </div>
+
+  <!-- View 2: Card exercise -->
+  <div class="view" id="exerciseView">
+    <div class="card-area">
+      <div class="card-shadow card-shadow-2" id="cardShadow2"></div>
+      <div class="card-shadow card-shadow-1" id="cardShadow1"></div>
+      <div class="exercise-card" id="exerciseCard">
+        <span class="card-word" id="cardWord"></span>
+      </div>
+    </div>
+    <div class="spoken-feedback" id="spokenFeedback"></div>
+    <div class="progress-text" id="progressText"></div>
+    <div class="action-buttons">
+      <button class="mic-btn" id="micBtn" onclick="startVoice()">
+        <svg width="135" height="132" viewBox="0 0 135 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.76387 7.45258C13.5142 0.698902 23.412 0.050682 23.412 0.050682H108.003C108.003 0.050682 117.553 -1.09008 126.901 7.45257C135 14.8546 135 27.4378 135 27.4378V100.223C135 100.223 135 112.489 126.901 120.949C116.979 131.311 108.003 131.311 108.003 131.311H23.412C23.412 131.311 15.7632 131.311 6.76369 120.949C-0.558053 112.518 0.0145173 100.47 0.0145173 100.47V28.178C0.0145173 28.178 -0.635517 14.8556 6.76387 7.45258Z"
+            fill="#45AD4F" />
+          <path
+            d="M67.3422 27C59.227 27 47.8666 32.2692 47.8663 32.8044C47.866 33.3396 47.8663 33.6517 47.8663 33.6517V81.4764V81.9C47.8663 82.1799 59.0909 87.8623 67.0539 87.8623C75.017 87.8623 86.8181 82.3236 86.8181 81.9V81.4764V33.6517V32.8044C86.8181 32.0845 75.4575 27 67.3422 27Z"
+            fill="white" stroke="white" stroke-width="1.79594" stroke-linejoin="round" />
+          <path
+            d="M71.9676 99.5746V75.8096C71.9676 75.8096 69.124 76.3964 67.4778 76.3964C65.8315 76.3964 63.2872 75.8096 63.2872 75.8096V99.5746H56.7638C56.7638 99.5746 56.1018 99.6951 55.7781 100.034C55.4545 100.374 55.5049 100.775 55.5049 100.775V103.367C55.5049 103.367 55.3911 104.516 55.7781 104.903C56.2098 105.336 57.1631 105.443 57.1631 105.443H78.2973C78.2973 105.443 79.1627 105.349 79.5144 104.903C79.7923 104.552 79.75 104.295 79.75 104.295V100.643C79.75 100.643 79.7616 100.371 79.5144 100.034C79.1783 99.5774 78.2973 99.5746 78.2973 99.5746H71.9676Z"
+            fill="white" stroke="white" stroke-width="1.79594" stroke-miterlimit="1" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M36.3022 44.0415C30.216 53.7795 30.8246 62.9088 36.3022 70.0826" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M28.3901 37.9551C21.5612 52.521 22.2441 66.1765 28.3901 76.907" stroke="white" stroke-width="3.59188"
+            stroke-linecap="round" />
+          <path d="M19.8691 33.0864C13.0402 51.2938 13.7231 68.3633 19.8691 81.7763" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M98.9902 44.0415C105.076 53.7795 104.468 62.9088 98.9902 70.0826" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+          <path d="M106.903 37.9551C113.732 52.521 113.049 66.1765 106.903 76.907" stroke="white" stroke-width="3.59188"
+            stroke-linecap="round" />
+          <path d="M115.423 33.0864C122.252 51.2938 121.569 68.3633 115.423 81.7763" stroke="white"
+            stroke-width="3.59188" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button class="wrong-btn" onclick="handleWrong()">
+        <svg width="135" height="132" viewBox="0 0 135 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.76387 7.45258C13.5142 0.698902 23.412 0.050682 23.412 0.050682H108.003C108.003 0.050682 117.553 -1.09008 126.901 7.45257C135 14.8546 135 27.4378 135 27.4378V100.223C135 100.223 135 112.489 126.901 120.949C116.979 131.311 108.003 131.311 108.003 131.311H23.412C23.412 131.311 15.7632 131.311 6.76369 120.949C-0.558053 112.518 0.0145173 100.47 0.0145173 100.47V28.178C0.0145173 28.178 -0.635517 14.8556 6.76387 7.45258Z"
+            fill="#8E2C2C" />
+          <path d="M33 93L68.0948 63.5M103.19 34L68.0948 63.5M68.0948 63.5L33 34M68.0948 63.5L103.19 93" stroke="white"
+            stroke-width="16.2759" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- View 3: Results -->
+  <div class="view" id="resultsView">
+    <div class="results-content">
+      <div class="results-title">Gut gemacht!</div>
+      <div class="results-score">Richtig: <span class="result-correct" id="resultCorrect">0</span></div>
+      <div class="results-score">Falsch: <span class="result-wrong" id="resultWrong">0</span></div>
+      <button class="results-back" onclick="backToList()">
+        <svg width="36" height="35" viewBox="0 0 36 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M17.8977 34.3637L13.9432 30.4432L24.3239 20.0625H0V14.3012H24.3239L13.9432 3.93754L17.8977 4.3869e-05L35.0795 17.1819L17.8977 34.3637Z"
+            fill="white" />
+        </svg>
+
+      </button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="navigateTo('index.html')" aria-label="Home">
+      <svg viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.56688 15C1.0669 15 0.271494 15.1137 0.0669067 14.5C-0.231878 13.6037 0.566881 13 0.566881 13L14.0669 0.5C14.0669 0.5 14.7534 0 15.0669 0C15.3804 0 16.0669 0.5 16.0669 0.5L29.5669 13C29.5669 13 30.3937 13.8464 30.0669 14.5C29.7401 15.1536 29.0669 15 28.5669 15H25.5669V19.5V24C25.5669 24 25.5669 26 25.0669 26.5C24.5669 27 22.5669 27 22.5669 27H7.56689C7.56689 27 5.60993 27.043 5.06689 26.5C4.52386 25.957 4.56689 24 4.56689 24L4.56688 15H1.56688Z" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('lexikon.html')" aria-label="Suche">
+      <svg viewBox="0 0 28 31" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M16.5518 15.5547C16.8565 15.9153 17.2927 16.4316 17.8164 17.0537C18.864 18.2981 20.264 19.9663 21.6729 21.6602C23.0819 23.3542 24.4993 25.0728 25.582 26.4199C26.1237 27.0939 26.5791 27.6734 26.9082 28.1084C27.073 28.3262 27.2042 28.5046 27.2969 28.6396C27.3433 28.7072 27.3775 28.761 27.4014 28.8008C27.4291 28.847 27.431 28.8555 27.4258 28.8408C27.5685 29.2459 27.6165 29.5233 27.5898 29.7305C27.5666 29.9104 27.4817 30.0758 27.248 30.2529C26.7451 30.6342 26.0338 30.7794 25.3613 30.2559C25.3375 30.2371 25.2676 30.1709 25.1416 30.0352C25.0224 29.9067 24.8694 29.7344 24.6865 29.5234C24.3209 29.1018 23.8434 28.533 23.292 27.8672C22.1894 26.5359 20.7974 24.8216 19.4316 23.127C18.0662 21.4327 16.7272 19.7591 15.7295 18.5088C15.2306 17.8836 14.8171 17.3639 14.5283 17.001C14.4725 16.9308 14.4212 16.8667 14.375 16.8086C15.1024 16.3963 15.7692 15.898 16.3584 15.3262C16.4151 15.3933 16.4799 15.4696 16.5518 15.5547ZM9.36719 0.40332C14.3396 0.40332 18.332 4.2096 18.332 8.85742C18.332 11.0004 17.4861 12.959 16.0869 14.4521C15.4677 15.1129 14.7407 15.6831 13.9307 16.1357L13.5781 16.3223C12.3238 16.9529 10.8905 17.3105 9.36719 17.3105C4.39513 17.3103 0.403467 13.505 0.40332 8.85742C0.40332 4.20975 4.39504 0.403567 9.36719 0.40332Z"
+          stroke="#8CD0D3" stroke-width="0" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <button class="nav-btn active" onclick="navigateTo('marked.html')" aria-label="Gespeichert">
+      <svg viewBox="0 0 20 33" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 30.9363V1.5H18.1051V30.9363L9.66183 22.0768L1.5 30.9363Z" stroke="#8CD0D3" stroke-width="2"
+          stroke-linejoin="round" />
+      </svg>
+
+    </button>
+    <button class="nav-btn" onclick="navigateTo('settings.html')" aria-label="Einstellungen">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M28.7837 19.5495C28.7837 24.7966 24.7488 29.0502 19.7715 29.0502M28.7837 19.5495C28.7837 14.3024 24.7488 10.0488 19.7715 10.0488M28.7837 19.5495H35.3232M19.7715 29.0502C14.7941 29.0502 10.7592 24.7966 10.7592 19.5495M19.7715 29.0502V35.7006M10.7592 19.5495C10.7592 14.3024 14.7941 10.0488 19.7715 10.0488M10.7592 19.5495H4M19.7715 10.0488V4M13.3928 12.8378L8.92358 7.92383M30.7946 31.9268L25.6294 26.7696M26.1501 12.8378L30.7946 7.92383M8.92358 31.9268L13.4629 26.3343"
+          stroke="#44869A" stroke-width="8" stroke-linecap="round" />
+      </svg>
+
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    // ── State ──
+    let exerciseWords = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let isListening = false;
+    let animating = false;
+    let recognition = null;
+
+    // ── Speech Recognition setup ──
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognitionAPI) {
+      recognition = new SpeechRecognitionAPI();
+      recognition.lang = 'de-CH';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = function (e) {
+        const spoken = e.results[0][0].transcript.trim();
+        setListening(false);
+        document.getElementById('spokenFeedback').textContent = '„' + spoken + '“';
+        setTimeout(function () {
+          document.getElementById('spokenFeedback').textContent = '';
+          checkAnswer(spoken);
+        }, 700);
+      };
+
+      recognition.onerror = function () { setListening(false); };
+      recognition.onend = function () { setListening(false); };
+    } else {
+      document.getElementById('micBtn').disabled = true;
+    }
+
+    function setListening(val) {
+      isListening = val;
+      document.getElementById('micBtn').classList.toggle('listening', val);
+    }
+
+    function startVoice() {
+      if (!recognition || animating) return;
+      if (isListening) { recognition.stop(); return; }
+      setListening(true);
+      try { recognition.start(); } catch (e) { setListening(false); }
+    }
+
+    // ── Answer matching ──
+    function normalize(str) {
+      return str.toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z]/g, '');
+    }
+
+    function levenshtein(a, b) {
+      const m = a.length, n = b.length;
+      if (!m) return n;
+      if (!n) return m;
+      const dp = Array.from({ length: m + 1 }, (_, i) => [i]);
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++)
+        for (let j = 1; j <= n; j++)
+          dp[i][j] = a[i - 1] === b[j - 1]
+            ? dp[i - 1][j - 1]
+            : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      return dp[m][n];
+    }
+
+    function checkAnswer(spoken) {
+      const entry = exerciseWords[currentIndex];
+      const ns = normalize(spoken);
+      const correct = entry.baseldeutsch.some(function (w) {
+        const nw = normalize(w);
+        if (ns === nw) return true;
+        if (ns.includes(nw) || nw.includes(ns)) return true;
+        if (Math.abs(ns.length - nw.length) <= 3 && levenshtein(ns, nw) <= 2) return true;
+        return false;
+      });
+      if (correct) handleCorrect();
+      else handleWrong();
+    }
+
+    // ── Card flow ──
+    function animateCard(direction) {
+      if (animating) return;
+      animating = true;
+      if (isListening) recognition.stop();
+      const card = document.getElementById('exerciseCard');
+      card.style.transition = 'transform 0.36s ease-in, opacity 0.36s ease-in';
+      card.style.transform = direction === 'right'
+        ? 'translateX(160%) rotate(12deg)'
+        : 'translateX(-160%) rotate(-12deg)';
+      card.style.opacity = '0';
+      setTimeout(function () {
+        currentIndex++;
+        if (currentIndex >= exerciseWords.length) {
+          showResults();
+        } else {
+          card.style.transition = 'none';
+          card.style.transform = '';
+          card.style.opacity = '1';
+          void card.offsetWidth;
+          animating = false;
+          showCard();
+        }
+      }, 380);
+    }
+
+    function handleCorrect() { correctCount++; animateCard('right'); }
+    function handleWrong() { wrongCount++; animateCard('left'); }
+
+    function showCard() {
+      const entry = exerciseWords[currentIndex];
+      document.getElementById('cardWord').textContent = entry.german;
+      document.getElementById('progressText').textContent =
+        (currentIndex + 1) + ' / ' + exerciseWords.length;
+      document.getElementById('spokenFeedback').textContent = '';
+      const rem = exerciseWords.length - currentIndex;
+      document.getElementById('cardShadow1').style.visibility = rem > 1 ? 'visible' : 'hidden';
+      document.getElementById('cardShadow2').style.visibility = rem > 2 ? 'visible' : 'hidden';
+    }
+
+    function startUeben() {
+      const words = getMarked();
+      if (!words.length) return;
+      exerciseWords = words.slice().sort(function () { return Math.random() - 0.5; });
+      currentIndex = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      animating = false;
+      const card = document.getElementById('exerciseCard');
+      card.style.transition = 'none';
+      card.style.transform = '';
+      card.style.opacity = '1';
+      showView('exercise');
+      showCard();
+    }
+
+    function showResults() {
+      animating = false;
+      document.getElementById('resultCorrect').textContent = correctCount;
+      document.getElementById('resultWrong').textContent = wrongCount;
+      showView('results');
+    }
+
+    function backToList() {
+      showView('list');
+      render();
+    }
+
+    function showView(name) {
+      ['list', 'exercise', 'results'].forEach(function (v) {
+        document.getElementById(v + 'View').classList.toggle('active', v === name);
+      });
+    }
+
+    // ── List / storage ──
+    function esc(text) {
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function getMarked() {
+      return JSON.parse(localStorage.getItem('markedWords') || '[]');
+    }
+
+    function removeMarked(german) {
+      const words = getMarked().filter(function (w) { return w.german !== german; });
+      localStorage.setItem('markedWords', JSON.stringify(words));
+      render();
+    }
+
+    let displayMode = 'mundart';
+
+    function setDisplay(mode, btn) {
+      displayMode = mode;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    }
+
+    function render() {
+      const words = getMarked();
+      const list = document.getElementById('wordList');
+      if (!words.length) {
+        list.innerHTML = '<div class="no-results">Keine gespeicherten Wörter</div>';
+        return;
+      }
+      list.innerHTML = words.map(function (w) {
+        const label = displayMode === 'mundart' ? esc(w.baseldeutsch[0]) : esc(w.german);
+        return '<div class="word-entry">'
+          + '<span>' + label + '</span>'
+          + '<button class="remove-btn" onclick="removeMarked(\'' + w.german.replace(/'/g, "\\'") + '\')" aria-label="Entfernen">'
+          + '<svg viewBox="0 0 22 6" fill="none"><rect x="0" y="0" width="17" height="4" rx="1" fill="#C0392B"/></svg>'
+          + '</button></div>';
+      }).join('');
+    }
+
+    render();
+  </script>
+
+</body>
+
+</html>

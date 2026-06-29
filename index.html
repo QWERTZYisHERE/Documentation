@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamifiy Learning: Baseldeutsch App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- The single orange box (wide on home, sidebar-width on a page) -->
+    <div id="panel">
+      <!-- Home menu content -->
+       <div id="only-desk" class="hero-title">only Desktop viewable</div>
+      <div id="panel-home" class="panel-pane">
+        <h1 class="hero-title">Gamifiy Learning &#x2012;<br />Baseldeutsch App</h1>
+        <ul class="hero-menu">
+          <li><a href="#/theoretical">Theoretical Thesis</a></li>
+          <li><a href="#/design">Practical Thesis</a></li>
+          <li class="impressum"><a href="#/impressium">Impressum</a></li>
+        </ul>
+      </div>
+      <!-- Sidebar content (page title + months) -->
+      <div id="panel-nav" class="panel-pane">
+        <div id="slide-nav-title"></div>
+        <div id="slide-nav-items"></div>
+      </div>
+    </div>
+
+    <!-- Everything to the right of the box -->
+    <div id="stage">
+      <!-- Home background diashow (crossfading design images) -->
+      <div id="home-diashow" aria-hidden="true">
+        <div class="diashow-layer"></div>
+        <div class="diashow-layer"></div>
+      </div>
+
+      <div id="slide-body">
+        <div id="slide-text">
+          <div class="slide-text-inner"></div>
+        </div>
+        <div id="slide-scroll"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <a class="back-link back-link--float" href="#/">Back</a>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="hidden">
+    <button id="lb-close">&times;</button>
+    <button id="lb-prev">&#8249;</button>
+    <button id="lb-next">&#8250;</button>
+    <div id="lb-content"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baseldeutsch Letter Scaler</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: #F3F3F3;
+      color: #F3F3F3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 48px 24px 60px;
+      gap: 0;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #d4ac60;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 40px;
+      letter-spacing: 0.08em;
+    }
+
+    .input-wrap {
+      width: 100%;
+      max-width: 460px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .translation-hint {
+      width: 100%;
+      max-width: 460px;
+      min-height: 28px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .translation-label {
+      font-size: 0.72rem;
+      color: #3e3c55;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .translation-chip {
+      padding: 4px 14px;
+      background: #1c1b27;
+      border: 1px solid #2e2d40;
+      border-radius: 999px;
+      cursor: pointer;
+      color: #d4ac60;
+      font-size: 0.88rem;
+      font-family: "Manrope", sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .translation-chip:hover {
+      border-color: #d4ac60;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1.25rem;
+      font-family: "Manrope", sans-serif;
+      background: #1c1b27;
+      border: 2px solid #2e2d40;
+      border-radius: 10px;
+      color: #f0e9d6;
+      outline: none;
+      transition: border-color 0.25s;
+      letter-spacing: 0.05em;
+    }
+
+    input:focus {
+      border-color: #165700;
+    }
+
+    input::placeholder {
+      color: #3a3950;
+    }
+
+    /* ── Letter stage ── */
+    .stage {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      min-height: 140px;
+      flex-wrap: wrap;
+      row-gap: 16px;
+    }
+
+    .letter {
+      display: inline-flex;
+      align-items: flex-end;
+      justify-content: center;
+      line-height: 1;
+      font-weight: bold;
+      user-select: none;
+    }
+
+
+    /* Long vowels: slow, large swell */
+    .letter.long-vowel {
+      font-size: 3rem;
+      color: #165700;
+      transform-origin: left center;
+    }
+
+    /* Short 'e': fast, tiny flutter */
+    .short-e {
+      transform-origin: bottom center;
+      font-size: 3rem;
+      color: #165700;
+
+    }
+
+    .sch-letter {
+      transform-origin: center center;
+      font-size: 3rem;
+      color: #165700;
+
+    }
+
+    /* Consonants: static baseline size */
+    .letter.consonant {
+      font-size: 3rem;
+      color: #165700;
+    }
+
+    .letter.d-letter {
+      font-size: 3rem;
+      color: #165700;
+      transform-origin: left bottom;
+    }
+
+    /* Inner-span transform origins for counter-scale animations */
+    .letter.long-vowel>span {
+      transform-origin: left center;
+    }
+
+    .letter.short-e>span {
+      transform-origin: bottom center;
+    }
+
+    /* Space between words */
+    .letter.space {
+      width: 24px;
+    }
+
+    .stage {
+      cursor: pointer;
+    }
+
+    .stage:empty {
+      cursor: default;
+    }
+
+    .stage-hint {
+      font-size: 0.72rem;
+      color: #3a3950;
+      letter-spacing: 0.1em;
+      margin-top: 10px;
+      text-transform: uppercase;
+      min-height: 1em;
+      transition: color 0.2s;
+    }
+
+    .stage-hint.visible {
+      color: #4a4870;
+    }
+
+    @keyframes shake {
+      50% {
+        transform: translate(-1px, 2px);
+      }
+
+      60% {
+        transform: translate(-3px, 1px);
+      }
+
+      70% {
+        transform: translate(3px, 1px);
+      }
+
+      80% {
+        transform: translate(-1px, -1px);
+      }
+
+      90% {
+        transform: translate(1px, 2px);
+      }
+
+      100% {
+        transform: translate(1px, -2px);
+      }
+    }
+
+    /* ── Examples ── */
+    .examples {
+      margin-top: 56px;
+      text-align: center;
+    }
+
+    .examples-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: #3e3c55;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .chip {
+      padding: 7px 16px;
+      background: #1c1b27;
+      border: 1px solid #2e2d40;
+      border-radius: 999px;
+      cursor: pointer;
+      color: #888;
+      font-size: 0.9rem;
+      font-family: "Manrope", sans-serif;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .chip:hover {
+      border-color: #d4ac60;
+      color: #d4ac60;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      margin-top: 48px;
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #555;
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Baseldeutsch Letter Scaler</h1>
+  <p class="subtitle">Animation</p>
+
+  <div class="input-wrap">
+    <input id="wordInput" type="text" placeholder="Wort oder Satz..." autocomplete="off" spellcheck="false" />
+  </div>
+
+  <div class="translation-hint" id="translationHint"></div>
+
+  <div class="stage" id="stage"></div>
+  <p class="stage-hint" id="stageHint"></p>
+
+  <div class="examples">
+    <p class="examples-label">Beispiel-Wörter</p>
+    <div class="chips">
+      <span class="chip" data-word="Basel">Basel</span>
+      <span class="chip" data-word="Schoggi">Schoggi</span>
+      <span class="chip" data-word="Weggli">Weggli</span>
+      <span class="chip" data-word="Grüezi">Grüezi</span>
+      <span class="chip" data-word="Züri">Züri</span>
+    </div>
+  </div>
+
+
+  <script>
+    // Vowels that only animate when written double (aa, oo, ee, …)
+    const DOUBLE_VOWELS = new Set(['a', 'e', 'o', 'u', 'ä', 'ö', 'ü', 'è', 'à', 'ò', 'ù']);
+
+    function classify(char) {
+      const c = char.toLowerCase();
+      if (c === 'i' || c === 'y') return 'short-e';  // always quick-up
+      if (c === 'd') return 'd-letter';               // stretch wide + squish down
+      if (DOUBLE_VOWELS.has(c)) return 'vowel';      // only stretches when doubled
+      if (c === ' ') return 'space';
+      return 'consonant';
+    }
+
+    let playTimeout = null;
+
+    function render(text) {
+      const stage = document.getElementById('stage');
+      const hint = document.getElementById('stageHint');
+
+      clearTimeout(playTimeout);
+      stage.classList.remove('playing');
+      stage.innerHTML = '';
+
+      for (let i = 0; i < text.length; i++) {
+        // Detect 'sch' trigraph before individual classification
+        if (text.slice(i, i + 4).toLowerCase() === 'scht') {
+          const span = document.createElement('span');
+          span.className = 'letter sch-letter';
+          span.dataset.type = 'sch';
+          const schInner = document.createElement('span');
+          schInner.textContent = text.slice(i, i + 3); // only 'sch', t stays as consonant
+          span.appendChild(schInner);
+          stage.appendChild(span);
+          i += 2; // loop will increment to t, which classifies as consonant
+          continue;
+        }
+
+        const ch = text[i];
+        let cls = classify(ch);
+
+        // Merge consecutive identical vowels into one span
+        let label = ch;
+        if (cls === 'vowel' || cls === 'short-e') {
+          while (i + 1 < text.length && text[i + 1].toLowerCase() === ch.toLowerCase()) {
+            label += text[++i];
+          }
+          if (cls === 'vowel') {
+            // Single vowel → static; doubled or more → swell
+            cls = label.length > 1 ? 'long-vowel' : 'consonant';
+          }
+          // short-e (i/y) always stays quick-up regardless of count
+        }
+
+        const span = document.createElement('span');
+        span.className = 'letter ' + cls;
+        span.dataset.type = cls;
+        if (cls !== 'space') {
+          const inner = document.createElement('span');
+          inner.textContent = label;
+          span.appendChild(inner);
+        }
+        stage.appendChild(span);
+      }
+
+      if (text.trim().length > 0) {
+        hint.textContent = 'Klick zum Abspielen';
+        hint.classList.add('visible');
+      } else {
+        hint.textContent = '';
+        hint.classList.remove('visible');
+      }
+    }
+
+    // Must match the CSS animation durations exactly
+    const DURATIONS = {
+      'long-vowel': 2,
+      'short-e': 1,
+      'sch': 0.5,
+      'd-letter': 0.6,
+      'consonant': 0,
+      'space': 0.15,
+    };
+
+    // Scale peaks — must match @keyframes
+    const SCALE_PEAK = { 'long-vowel': 1.3, 'short-e': 0.62 };
+
+    // Animation keyframes (all animations run via Web Animations API for precise delay control)
+    const FRAMES = {
+      'long-vowel': [{ transform: 'scaleX(1)' }, { transform: 'scaleX(1.6)' }, { transform: 'scaleX(1)' }],
+      'long-vowel-inner': [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0.8)' }, { transform: 'scaleX(1)' }],
+      'short-e': [{ transform: 'scaleY(1)' }, { transform: 'scaleY(2)' }, { transform: 'scaleY(1)' }],
+      'short-e-inner': [{ transform: 'scaleY(1)' }, { transform: 'scaleY(0.8)' }, { transform: 'scaleY(1)' }],
+      'd-letter': [{ transform: 'scaleX(1) scaleY(1)' }, { transform: 'scaleX(1.3) scaleY(0.65)' }, { transform: 'scaleX(1) scaleY(1)' }],
+    };
+
+    const ANIM_DUR = { 'long-vowel': 600, 'short-e': 500, 'd-letter': 600, 'sch': 500 };
+
+    const shakeFrames = [
+      { transform: 'translate(3px)' },
+      { transform: 'translate(-1px,-1px)' },
+      { transform: 'translate(1px,2px)' },
+      { transform: 'translate(1px,-2px)' },
+      { transform: 'translate(0px,0px)' },
+    ];
+
+    let playGen = 0;
+
+    async function playAnimation() {
+      const gen = ++playGen;
+      const stage = document.getElementById('stage');
+      const hint = document.getElementById('stageHint');
+      if (!stage.children.length) return;
+
+      // Cancel any in-progress animations
+      Array.from(stage.children).forEach(span => {
+        span.getAnimations().forEach(a => a.cancel());
+        if (span.firstElementChild) span.firstElementChild.getAnimations().forEach(a => a.cancel());
+      });
+
+      const letters = Array.from(stage.children);
+      const rects = letters.map(s => s.getBoundingClientRect());
+
+      hint.textContent = '▶ Läuft…';
+      hint.classList.add('visible');
+
+      for (let i = 0; i < letters.length; i++) {
+        if (gen !== playGen) return; // user clicked again — abort
+
+        const span = letters[i];
+        const type = span.dataset.type;
+        const dur = ANIM_DUR[type];
+        if (!dur) continue; // consonant / space — skip, no await
+
+        const pending = [];
+
+        // Push neighbors and collect their promises
+        if (type === 'long-vowel' || type === 'd-letter') {
+          const push = Math.round(rects[i].width * 0.2);
+          for (let j = i + 1; j < letters.length; j++) {
+            const pa = letters[j].animate(
+              [{ transform: 'translateX(0px)' }, { transform: `translateX(${push}px)` }, { transform: 'translateX(0px)' }],
+              { duration: dur, delay: 80, easing: 'ease-out', fill: 'none' }
+            );
+            pending.push(pa.finished.catch(() => null));
+          }
+        }
+
+        // Start main animation (and counter for inner span)
+        if (type === 'sch') {
+          pending.push(span.animate(shakeFrames, { duration: dur, easing: 'linear', fill: 'none' }).finished.catch(() => null));
+        } else {
+          pending.push(span.animate(FRAMES[type], { duration: dur, easing: 'ease-in-out', fill: 'none' }).finished.catch(() => null));
+          if (FRAMES[type + '-inner'] && span.firstElementChild) {
+            span.firstElementChild.animate(FRAMES[type + '-inner'], { duration: dur, easing: 'ease-in-out', fill: 'none' });
+          }
+        }
+
+        // Wait for the letter AND all its pushed neighbors to finish
+        await Promise.all(pending);
+      }
+
+      if (gen === playGen) hint.textContent = 'Klick zum Abspielen';
+    }
+
+    function setWord(word) {
+      document.getElementById('wordInput').value = word;
+      render(word);
+      updateTranslationHint(word);
+    }
+
+    // ── Dictionary ──
+    let dictionary = null;
+
+    async function loadDictionary() {
+      try {
+        const res = await fetch('./baseldeutsch.json');
+        const data = await res.json();
+        dictionary = new Map();
+        data.forEach(entry => {
+          dictionary.set(entry.german.toLowerCase(), entry.baseldeutsch);
+        });
+      } catch (e) {
+        // translation unavailable (e.g. file:// CORS block)
+      }
+    }
+
+    function getTranslations(text) {
+      if (!dictionary) return null;
+      const words = text.trim().split(/\s+/);
+
+      if (words.length === 1) {
+        const variants = dictionary.get(words[0].toLowerCase());
+        return variants ?? null;
+      }
+
+      // Multi-word: use first variant per word
+      const tokens = text.split(/(\s+)/);
+      let changed = false;
+      const result = tokens.map(token => {
+        if (/^\s+$/.test(token)) return token;
+        const variants = dictionary.get(token.toLowerCase());
+        if (variants) { changed = true; return variants[0]; }
+        return token;
+      });
+      return changed ? [result.join('')] : null;
+    }
+
+    function updateTranslationHint(text) {
+      const hint = document.getElementById('translationHint');
+      if (!text.trim()) { hint.innerHTML = ''; return; }
+      const translations = getTranslations(text);
+      if (!translations) { hint.innerHTML = ''; return; }
+      const chips = translations
+        .map(t => `<span class="translation-chip">${t}</span>`)
+        .join('');
+      hint.innerHTML = `<span class="translation-label">Baseldeutsch:</span>${chips}`;
+      hint.querySelectorAll('.translation-chip').forEach(chip => {
+        chip.addEventListener('click', () => setWord(chip.textContent.trim()));
+      });
+    }
+
+    document.getElementById('stage').addEventListener('click', playAnimation);
+    document.getElementById('wordInput').addEventListener('input', e => {
+      render(e.target.value);
+      updateTranslationHint(e.target.value);
+    });
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => setWord(chip.dataset.word));
+    });
+
+    // Initial example
+    loadDictionary().then(() => setWord('Basel'));
+  </script>
+
+</body>
+
+</html>

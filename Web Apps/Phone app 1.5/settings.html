@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet">
+  <meta charset="UTF-8">
+  <script>(function () { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Einstellungen</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      font-weight: bold;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      max-width: 393px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100dvh;
+      color: var(--text);
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+    .top-bar {
+      background: var(--bg);
+      height: 30px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text);
+      padding: 18px 30px 14px;
+      flex-shrink: 0;
+    }
+
+    .settings-card {
+      margin: 10px 20px;
+      background: var(--bg-card);
+      border: solid var(--border);
+      border-width: 2px 2px 5px 2px;
+      border-radius: 20px;
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .setting-row {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .setting-label {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── Toggle switch ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toggle-switch {
+      position: relative;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .toggle-track {
+      display: block;
+      width: 52px;
+      height: 30px;
+      background: var(--border);
+      border-radius: 15px;
+      transition: background 0.25s;
+      position: relative;
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: var(--bg);
+      border-radius: 50%;
+      transition: transform 0.25s;
+    }
+
+    .toggle-switch input:checked+.toggle-track {
+      background: var(--accent);
+    }
+
+    .toggle-switch input:checked+.toggle-track .toggle-thumb {
+      transform: translateX(22px);
+    }
+
+    /* ── Sliders ── */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      border: solid var(--light);
+      border-width: 2px 2px 4px 2px;
+      cursor: pointer;
+      margin-top: -12px;
+      filter: drop-shadow(0 4px 4px rgba(44, 169, 247, 0.25));
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: solid var(--accent-light);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: var(--border-nav);
+      border-radius: 2px;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .bottom-nav {
+      background: var(--bg);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      border-top: 3px solid var(--border-nav);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .nav-btn svg path {
+      fill: var(--accent);
+      stroke: var(--accent);
+    }
+
+    .nav-btn.active svg path {
+      fill: var(--accent-light);
+      stroke: var(--light);
+      filter: drop-shadow(0 4px 4px rgba(44, 169, 247, 0.25));
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <div class="page-title">Einstellungen</div>
+
+  <div class="settings-card">
+    <div class="setting-row">
+      <label class="setting-label" for="fontSize">Schriftgrösse</label>
+      <input type="range" id="fontSize" min="1" max="5" step="1" value="3">
+    </div>
+    <div class="setting-row">
+      <label class="setting-label" for="animSpeed">Animationslänge</label>
+      <input type="range" id="animSpeed" min="1" max="5" step="1" value="3">
+    </div>
+  </div>
+  <!-- Write your comments here 
+    <div class="settings-card">
+    <div class="setting-row">
+      <div class="toggle-row">
+        <span class="setting-label">Dunkelmodus</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+    </div>
+
+  </div>-->
+
+  <div class="spacer"></div>
+  <nav class="bottom-nav">
+    <button class="nav-btn" onclick="navigateTo('index.html')" aria-label="Home">
+      <svg viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.56688 15C1.0669 15 0.271494 15.1137 0.0669067 14.5C-0.231878 13.6037 0.566881 13 0.566881 13L14.0669 0.5C14.0669 0.5 14.7534 0 15.0669 0C15.3804 0 16.0669 0.5 16.0669 0.5L29.5669 13C29.5669 13 30.3937 13.8464 30.0669 14.5C29.7401 15.1536 29.0669 15 28.5669 15H25.5669V19.5V24C25.5669 24 25.5669 26 25.0669 26.5C24.5669 27 22.5669 27 22.5669 27H7.56689C7.56689 27 5.60993 27.043 5.06689 26.5C4.52386 25.957 4.56689 24 4.56689 24L4.56688 15H1.56688Z" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('lexikon.html')" aria-label="Suche">
+      <svg viewBox="0 0 32 35" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M11.3672 1C17.0396 1 21.7354 5.3614 21.7354 10.8574C21.7353 13.0633 20.9721 15.0954 19.6934 16.7314C19.9937 17.0871 20.4038 17.5733 20.8896 18.1504C21.9383 19.396 23.3407 21.066 24.752 22.7627C26.1624 24.4585 27.5855 26.1845 28.6758 27.541C29.2202 28.2184 29.6868 28.8093 30.0283 29.2607C30.1984 29.4856 30.3437 29.6839 30.4541 29.8447C30.509 29.9247 30.5603 30.0046 30.6045 30.0781C30.6218 30.1069 30.6466 30.1491 30.6729 30.2002L30.75 30.375L30.8643 30.7314C30.9687 31.1009 31.0342 31.5036 30.9814 31.9111C30.9024 32.5217 30.5799 33.0046 30.0967 33.3711C29.218 34.0373 27.793 34.3699 26.5 33.3633C26.3731 33.2645 26.2293 33.1143 26.1133 32.9893C25.9787 32.8442 25.8135 32.6587 25.626 32.4424C25.2501 32.0089 24.7646 31.4312 24.2109 30.7627C23.1023 29.4241 21.7058 27.7039 20.3389 26.0078C18.9715 24.3111 17.6314 22.6351 16.6328 21.3838C16.1511 20.7801 15.7483 20.2752 15.4609 19.9141C14.203 20.4285 12.8186 20.7139 11.3672 20.7139C5.69512 20.7136 1.00015 16.3532 1 10.8574C1 5.36156 5.69504 1.00025 11.3672 1Z"
+          stroke-width="1" />
+      </svg>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('marked.html')" aria-label="Gespeichert">
+      <svg viewBox="0 0 41 38" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M21.7823 6.01335L21.8667 6.07177C22.2672 6.38219 22.3754 6.95192 22.1014 7.3911L18.6964 12.8486L27.3885 18.2717L30.7935 12.8142C31.0859 12.3456 31.7027 12.2027 32.1713 12.4951L39.2544 16.9143C39.7229 17.2066 39.8658 17.8235 39.5735 18.292L36.1685 23.7496L39.0981 25.5774C39.5667 25.8698 39.7096 26.4866 39.4172 26.9551L35.9047 32.585C35.6123 33.0533 34.9954 33.1963 34.527 32.9041L31.5973 31.0762L28.6141 35.8577C28.3217 36.3261 27.7049 36.4691 27.2364 36.1768L20.1533 31.7576C19.6848 31.4653 19.542 30.8484 19.8342 30.3798L22.8174 25.5984L14.1252 20.1753L11.1421 24.9568C10.8497 25.4252 10.2328 25.5681 9.76432 25.2759L1.97282 20.4147C1.50431 20.1224 1.36153 19.5055 1.65374 19.0369L4.63692 14.2555L1.4711 12.2803C1.00263 11.988 0.859904 11.3711 1.15202 10.9026L4.66453 5.27271C4.95687 4.80414 5.57371 4.66128 6.04228 4.95362L9.20809 6.9288L12.6131 1.47127C12.9054 1.0027 13.5223 0.859841 13.9908 1.15218L21.7823 6.01335Z"
+          stroke-width="1" stroke-linejoin="round" />
+      </svg>
+
+    </button>
+    <button class="nav-btn active" onclick="navigateTo('settings.html')" aria-label="Einstellungen">
+      <svg width="43" height="45" viewBox="0 0 43 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M17.7137 2.99957C17.7137 4.5 17.7137 8.49959 17.7137 8.49959L16.2135 9.56048C16.2135 9.56048 13.5 6.5 12.2659 5.50879C11.0317 4.51759 8.68417 5.03901 7.5 6C6.31583 6.96099 5.40268 9.36067 6.20134 10.4303C7 11.5 9.64252 14.9755 9.64252 14.9755L8.49954 17.4996C8.49954 17.4996 4 17.5 3 17.4996C2 17.4992 1 20.0922 1 21.7306C1 23.3689 2 25.8185 3 25.89C4 25.9615 8.49954 25.9615 8.49954 25.9615L9.46694 28.4743C9.46694 28.4743 6.5 31.5 5.91521 32.4285C5.33041 33.3569 5.44012 35.9122 6.5 37C7.55988 38.0878 10.6864 38.4991 11.3432 37.9995C12 37.5 15.3949 34.0519 15.3949 34.0519L17.7137 34.4995C17.7137 34.4995 17.5 39.5 17.7137 40.9995C17.9273 42.4991 19.9992 43.5 21.4637 43.5C22.9281 43.5 24.9274 41.9991 25.2137 40.9995C25.5 40 25.2137 34.4995 25.2137 34.4995L26.7137 33.9995C26.7137 33.9995 29.9274 37.4991 30.7137 37.9995C31.5 38.5 34.8284 38.4763 36 37.5C37.1716 36.5237 37 33.9995 36.7138 32.9995C36.4276 31.9995 33.2137 28.4995 33.2137 28.4995L34.2137 25.9615H39.7138C39.7138 25.9615 42 23.3829 42 21.7306C42 20.0783 39.7138 17.4996 39.7138 17.4996H34.2137L33.2137 14.9996C33.2137 14.9996 36 12 36.7138 10.9996C37.4276 9.99917 37.5 8 36.5 6.5C35.5 5 32.4274 4.49915 31.2137 5.49957C30 6.5 26.7137 9.56048 26.7137 9.56048L25.2137 8.49959C25.2137 8.49959 25.2137 4.5 25.2137 2.99957C25.2137 1.49915 23.1233 1 21.4637 1C19.804 1 17.7137 1.49915 17.7137 2.99957ZM21.4637 28.256C25.0761 28.256 28.0045 25.2885 28.0045 21.6278C28.0045 17.9671 25.0761 14.9996 21.4637 14.9996C17.8513 14.9996 14.9228 17.9671 14.9228 21.6278C14.9228 25.2885 17.8513 28.256 21.4637 28.256Z"
+          fill="#691A1A" />
+        <path
+          d="M21.4639 0.5C22.3314 0.500019 23.3435 0.628975 24.1582 0.977539C24.9697 1.32484 25.7139 1.95814 25.7139 3V8.24121L26.6699 8.91699C26.7387 8.85326 26.8183 8.78053 26.9062 8.69922C27.2338 8.39624 27.6834 7.98201 28.1709 7.53613C29.1418 6.64813 30.2768 5.62325 30.8955 5.11328C31.6699 4.47505 32.9238 4.37246 34.0254 4.57031C35.1382 4.77019 36.3101 5.31382 36.916 6.22266C37.4749 7.06097 37.7295 8.03057 37.749 8.92578C37.7683 9.81276 37.5574 10.6784 37.1211 11.29C36.7443 11.8181 35.8477 12.8412 35.0684 13.709C34.6739 14.1482 34.3015 14.5558 34.0283 14.8535C33.9393 14.9505 33.8604 15.0354 33.7949 15.1064L34.5527 17H39.7139L39.8193 17.0107C39.9224 17.033 40.0167 17.0877 40.0879 17.168L40.0908 17.1709C40.0922 17.1724 40.0934 17.1751 40.0957 17.1777C40.1006 17.1833 40.1082 17.1909 40.1172 17.2012C40.1351 17.2218 40.1609 17.2517 40.1934 17.29C40.2585 17.3669 40.3505 17.4784 40.4609 17.6162C40.6813 17.8913 40.9768 18.2765 41.2725 18.7168C41.567 19.1555 41.8689 19.6579 42.0986 20.166C42.3249 20.6666 42.5 21.2139 42.5 21.7305C42.5 22.2471 42.3249 22.7943 42.0986 23.2949C41.8689 23.8031 41.567 24.3054 41.2725 24.7441C40.9768 25.1845 40.6813 25.5706 40.4609 25.8457C40.3507 25.9834 40.2584 26.0941 40.1934 26.1709C40.1609 26.2092 40.1351 26.2391 40.1172 26.2598C40.1082 26.2701 40.1006 26.2786 40.0957 26.2842C40.0936 26.2865 40.0921 26.2886 40.0908 26.29L40.0879 26.293C39.993 26.4 39.8569 26.4619 39.7139 26.4619H34.5537L33.792 28.3936C33.8735 28.4839 33.9762 28.5973 34.0938 28.7295C34.4015 29.0754 34.8157 29.548 35.2393 30.0527C35.662 30.5564 36.0989 31.098 36.4502 31.5801C36.6256 31.8208 36.7836 32.0523 36.9092 32.2607C37.0298 32.461 37.1398 32.6718 37.1943 32.8623C37.3545 33.4222 37.4744 34.3627 37.4023 35.2969C37.332 36.2089 37.0675 37.261 36.3203 37.8838C35.9479 38.1941 35.4405 38.4028 34.9199 38.543C34.3912 38.6853 33.8059 38.7685 33.2422 38.8027C32.6784 38.8369 32.122 38.8235 31.6475 38.7666C31.1963 38.7125 30.7432 38.6105 30.4453 38.4209C30.1979 38.2634 29.8123 37.9125 29.4092 37.5225C28.9911 37.118 28.5111 36.6286 28.0586 36.1582C27.6055 35.6872 27.1769 35.2325 26.8623 34.8955C26.7463 34.7713 26.6463 34.6624 26.5654 34.5752L25.7305 34.8535C25.7368 34.9903 25.7457 35.1594 25.7539 35.3535C25.7764 35.8866 25.8033 36.6085 25.8213 37.3623C25.8393 38.1152 25.8476 38.9053 25.834 39.5723C25.8272 39.9054 25.8146 40.2131 25.7939 40.4727C25.7741 40.7227 25.7449 40.9613 25.6943 41.1377C25.5933 41.4902 25.3597 41.8372 25.0859 42.1445C24.8057 42.4591 24.4529 42.7661 24.0664 43.0352C23.3089 43.5624 22.3418 43.9999 21.4639 44C20.6327 44 19.6605 43.7203 18.8623 43.2402C18.0725 42.7652 17.3559 42.0319 17.2188 41.0703C17.105 40.2722 17.1073 38.6016 17.1338 37.1777C17.1472 36.4557 17.1668 35.781 17.1836 35.2871C17.1884 35.1448 17.1932 35.0174 17.1973 34.9082L15.5625 34.5928C15.4715 34.6848 15.3513 34.8068 15.209 34.9502C14.8799 35.2818 14.4343 35.73 13.9678 36.1934C13.5016 36.6564 13.0134 37.1367 12.5996 37.5332C12.1955 37.9205 11.8372 38.2517 11.6455 38.3975C11.4827 38.5212 11.2839 38.5901 11.1016 38.6318C10.9117 38.6753 10.6985 38.6989 10.4766 38.707C10.0323 38.7233 9.51056 38.6799 8.98535 38.5869C8.45954 38.4938 7.91434 38.3476 7.42383 38.1484C6.93967 37.9518 6.47419 37.69 6.1416 37.3486C5.49719 36.687 5.1844 35.6432 5.09277 34.7031C5.04591 34.2222 5.05459 33.7412 5.11621 33.3105C5.17668 32.8881 5.2938 32.4771 5.49219 32.1621C5.66172 31.8929 5.98149 31.5027 6.33984 31.0908C6.7057 30.6703 7.13567 30.1999 7.54492 29.7617C7.9546 29.3231 8.34536 28.9136 8.63379 28.6143C8.72981 28.5146 8.81444 28.427 8.88477 28.3545L8.15527 26.46C8.04975 26.4598 7.92277 26.4603 7.7793 26.46C7.34138 26.4588 6.7469 26.4566 6.12109 26.4521C4.87955 26.4433 3.48403 26.4259 2.96387 26.3887C2.52053 26.3568 2.15818 26.0743 1.89062 25.7715C1.61266 25.4568 1.36993 25.0451 1.16992 24.6045C0.771298 23.7263 0.5 22.6338 0.5 21.7305C0.500019 20.8293 0.769968 19.7031 1.16699 18.7998C1.36606 18.347 1.60927 17.9219 1.88867 17.6016C2.15557 17.2956 2.53201 16.9999 3 17H8.17676L9.06348 15.041C8.99698 14.9535 8.91501 14.8437 8.81934 14.7178C8.5591 14.3752 8.2035 13.9076 7.82324 13.4062C7.06319 12.4042 6.20151 11.2662 5.80078 10.7295C5.51966 10.353 5.41099 9.88987 5.40137 9.43262C5.39172 8.97322 5.48099 8.48631 5.63184 8.02051C5.93023 7.09908 6.49983 6.16702 7.18457 5.61133C7.85637 5.06614 8.8278 4.66488 9.79395 4.52734C10.7516 4.39105 11.8102 4.50162 12.5791 5.11914C13.2286 5.6408 14.2394 6.68039 15.0674 7.56445C15.4861 8.01156 15.8656 8.42759 16.1406 8.73145C16.1938 8.79017 16.2432 8.8447 16.2881 8.89453L17.2139 8.24023V3C17.2139 1.958 17.9579 1.32481 18.7695 0.977539C19.5843 0.628949 20.5963 0.5 21.4639 0.5ZM21.4639 15.5C18.1338 15.5 15.4229 18.2371 15.4229 21.6279C15.4229 25.0187 18.1339 27.7559 21.4639 27.7559C24.7938 27.7558 27.5048 25.0186 27.5049 21.6279C27.5049 18.2372 24.7938 15.5001 21.4639 15.5Z"
+          stroke="#691A1A" stroke-linejoin="round" />
+      </svg>
+
+
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    const fontSizes = ['14px', '16px', '18px', '20px', '22px'];
+    const animSpeeds = ['0.08s', '0.15s', '0.22s', '0.35s', '0.5s'];
+
+    function loadSettings() {
+      const fs = parseInt(localStorage.getItem('fontSize') || '3');
+      const as = parseInt(localStorage.getItem('animSpeed') || '3');
+      document.getElementById('fontSize').value = fs;
+      document.getElementById('animSpeed').value = as;
+    }
+
+    document.getElementById('fontSize').addEventListener('input', function () {
+      localStorage.setItem('fontSize', this.value);
+    });
+
+    document.getElementById('animSpeed').addEventListener('input', function () {
+      localStorage.setItem('animSpeed', this.value);
+    });
+
+    // ── Theme toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.checked = (localStorage.getItem('theme') === 'dark');
+    themeToggle.addEventListener('change', function () {
+      const theme = this.checked ? 'dark' : 'light';
+      localStorage.setItem('theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    });
+
+    loadSettings();
+  </script>
+
+</body>
+
+</html>
