@@ -399,7 +399,10 @@ A young international student
 from Germany as the primary 
 persona, and a teenager from 
 outside Basel as the secondary
-persona.`,
+persona.
+
+At the end, I planned to make
+a demo app.`,
         media: [{ src: "Images/Personas.png" }],
       },
       {
