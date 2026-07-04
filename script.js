@@ -38,45 +38,23 @@ const designSlides = [
         media: [
           {
             text: 
-`Language apps have gained significant traction in recent years, offering 
-an accessible and affordable way to learn new languages. A prime example 
-is Duolingo, which engages users through a recognizable character and 
-teaches vocabulary through mini-games.`,
+`Language apps have gained significant traction in recent years, offering an accessible and affordable way to learn new languages. A prime example is Duolingo, which engages users through a recognizable character and teaches vocabulary through mini-games.`,
           },
           {
             text: 
-`Since I use language apps myself, the mechanics behind them have always 
-interested me. I wanted to explore them further. During my summer internship,
-I had the opportunity to develop my own app, which inspired me to take on 
-another one independently.`,
+`Since I use language apps myself, the mechanics behind them have always interested me. I wanted to explore them further. During my summer internship, I had the opportunity to develop my own app, which inspired me to take on another one independently.`,
           },
           {
             text: 
-`For my theoretical thesis, I examined existing language apps including
-Duolingo, Babbel, LingoDeer, and PingoAI. The first part covers psychological
-theories of learning, the historical background of gamification, and language
-acquisition. The second part addresses various aspects of these apps through
-case studies, such as animation, haptic feedback, game mechanics, and social
-features. Through analyzing the successes and shortcomings of these apps,
-I observed how audiovisual elements and haptic feedback influence user 
-motivation. This led me to make an experimental dialect app that contains 
-different versions of the same lesson. The different versions of the lessons
-have differences in animation, sound and haptic feedback.`,
+`For my theoretical thesis, I examined existing language apps including Duolingo, Babbel, LingoDeer, and PingoAI. The first part covers psychological theories of learning, the historical background of gamification, and language acquisition. The second part addresses various aspects of these apps through case studies, such as animation, haptic feedback, game mechanics, and social features. Through analyzing the successes and shortcomings of these apps, I observed how audiovisual elements and haptic feedback influence user motivation. This led me to make an experimental dialect app that contains different versions of the same lesson. The different versions of the lessons have differences in animation, sound and haptic feedback.`,
           },
           {
             text: 
-`Before beginning the project, I spoke with Studio Freisicht, a studio 
-specializing in app development for the museum sector, who offered tips 
-mainly on the technical and marketing side. I also interviewed Zeynep 
-Köylü, a researcher specializing in second language acquisition. During
-the writing process, I considered incorporating AI as a feature, but 
-decided against it after the interview, as AI carries the risk of convey-
-ing language inaccurately, especially with dialects.`,
+`Before beginning the project, I spoke with Studio Freisicht, a studio specializing in app development for the museum sector, who offered tips mainly on the technical and marketing side. I also interviewed Zeynep Köylü, a researcher specializing in second language acquisition. During the writing process, I considered incorporating AI as a feature, but decided against it after the interview, as AI carries the risk of conveying language inaccurately, especially with dialects.`,
           },
           {
             text: 
-`I chose the Basel dialect because I noticed that very few language apps offer 
-dialect learning, and it is the dialect I know best, having grown up in Basel.`,
+`I chose the Basel dialect because I noticed that very few language apps offer dialect learning, and it is the dialect I know best, having grown up in Basel.`,
           },
         ],
       },
@@ -88,21 +66,10 @@ dialect learning, and it is the dialect I know best, having grown up in Basel.`,
       {
         title: "Ideation and Sketches",
         description:
-`During my research, I found that
-combining animation, sound,
-and haptic feedback could po-
-tentially boost user engagement
-and motivation. I wanted to use a 
-dialect learning app as a small
-testbed for this idea.
+`During my research, I found that combining animation, sound, and haptic feedback could potentially boost user engagement and motivation. I wanted to use a dialect learning app as a small testbed for this idea.
 
-Since I was initially unsure about
-the direction of the project,
-I started by designing a visual
-identity for the app. I first 
-explored a more Swiss-inspired
-identity, but eventually decided
-to take a different approach.`,
+Since I was initially unsure about the direction of the project, 
+I started by designing a visual identity for the app. I first explored a more Swiss-inspired identity, but eventually decided to take a different approach.`,
         layout: "grid",
         media: [
           { src: "Images/Sketch.jpeg" },
@@ -115,22 +82,9 @@ to take a different approach.`,
       {
         title: "Research and Data Collecting",
         description:
-`Before starting development,
-I wanted to establish a solid
-content foundation for the app.
-This meant building a strong
-understanding of the Basel
-dialect, its vocabulary and
-pronunciation.
+`Before starting development, I wanted to establish a solid content foundation for the app. This meant building a strong understanding of the Basel dialect, its vocabulary and pronunciation.
 
-To do this, I researched the
-dialect and found two books
-as well as a lexicon website
-dedicated to Baseldeutsch.
-To build a comprehensive word
-collection, I scraped data 
-from the website and collected 
-1674 words.`,
+To do this, I researched the dialect and found two books as well as a lexicon website dedicated to Baseldeutsch. To build a comprehensive word collection, I scraped data from the website and collected 1674 words.`,
 
         media: [
           { src: "Videos/Aufzeichnung 2026-06-23 122314.mp4" },
@@ -147,16 +101,9 @@ from the website and collected
       {
         title: "Animations",
         description:
-`For the thesis, I found it
-interesting that typography
-animation could potentially
-help with pronunciation of
-the words. 
+`For the thesis, I found it interesting that typography animation could potentially help with pronunciation of the words.
 
-At first, I made some anima-
-tions with Adobe After Effects.
-I also tried to make icon 
-animations for the app.`,
+At first, I made some animations with Adobe After Effects. I also tried to make icon animations for the app.`,
 
         media: [
           { src: "Videos/Komp 2.mp4", width: "340px", controls: false },
@@ -169,15 +116,8 @@ animations for the app.`,
       {
         title: "Typography Animations",
         description:
-`I produced more typography
-animation with other words.
-I made more typography ani-
-mations to look at possibi-
-lities of how it could help
-out with pronunciation. For
-certain vowels, I stretched
-them out like the double 
-vowels.`,
+`I produced more typography animation with other words. I made more typography animations to look at possibilities of how it could help out with pronunciation. 
+For certain vowels, I stretched them out like the double vowels.`,
         layout: "grid",
         columns: 3,
         media: [
@@ -195,27 +135,10 @@ vowels.`,
       {
         title: "First Prototype",
         description:
-`
-The core focus of my thesis 
-was experimenting with combi-
-nations of animation, sound,
-and haptic feedback. To do
-this, I planned to build an
-experimental app prototype
-featuring multiple versions
-of the same lesson, each with
-a different combination of 
-the three elements. This
-required a deliberately simple
-interface to focus on the
-combinations.
+`The core focus of my thesis was experimenting with the combinations of animation, sound, and haptic feedback. 
+To do this, I planned to build an experimental app prototype featuring multiple versions of the same lesson, each with a different combination of the three elements. This required a deliberately simple interface to focus on the combinations.
 
-The tasks are based on the first
-chapter of the [Baseldeutsch-
-Grammatik-Buch](#Research and Data Collecting), specifically
-'die Lautgesetze'. The initial 
-thought was to use all of the
-seven rules.`,
+The tasks are based on the first chapter of the [Baseldeutsch-Grammatik-Buch](#Research and Data Collecting), specifically 'die Lautgesetze'. The initial thought was to use all of the seven rules.`,
         layout: "row",
         media: [
           { src: "Images/flow chart.png", full: "true" },
@@ -226,12 +149,7 @@ seven rules.`,
       {
         title: "First Interim Presentation",
         text: 
-`Following the interim presentation in late April, feedback pointed toward making
-the design more playful. The core concept, experimenting with animation, sound,
-and haptic feedback, was well received, with typography animations to aid pronunciation
-standing out as the most promising direction. However, they questioned whether it would 
-work to involve pronunciation in the lesson tasks, since dialects focus more on 
-speaking than writing.`,
+`Following the interim presentation in late April, feedback pointed toward making the design more playful. The core concept, experimenting with animation, sound, and haptic feedback, was well received, with typography animations to aid pronunciation standing out as the most promising direction. However, they questioned whether it would work to involve pronunciation in the lesson tasks, since dialects focus more on speaking than writing.`,
       },
     ],
   },
@@ -241,33 +159,11 @@ speaking than writing.`,
       {
         title: " Further Prototyping",
         description:
-`The design is based on the
-initial sketches I made, but
-I wasn't sure which visual 
-elements I wanted to integrate.
-At first, I based the visual 
-style on Basel's coat of arms,
-which is typically black and
-white. 
+`The design is based on the initial sketches I made, but I wasn't sure which visual elements I wanted to integrate. At first, I based the visual style on Basel's coat of arms, which is typically black and white.
 
-While designing the lesson,
-I realized that some rules 
-are difficult to visualize,
-so I decided to use four rules
-instead of all seven. I plann-
-ed to make four main pages:
-Lesson Page, Lexicon Page,
-Training Page and Settings
-Page. I also noticed that it
-is difficult to simulate
-haptic feedback because of
-technical limitations:
-I planned to program with
-HTML/CSS/JS, since I am
-most familiar with it and
-it has limited haptic fea-
-tures compared to other
-programming languages.`,
+While designing the lesson, I realized that some rules are difficult to visualize, so I decided to use four rules instead of all seven. I planned to make four main pages: 
+Lesson Page, Lexicon Page, Training Page and Settings Page. I also noticed that it is difficult to simulate haptic feedback because of technical limitations:
+I planned to program with HTML, CSS and Javascript, since I am most familiar with it and it has limited haptic features compared to other programming languages.`,
         layout: "row",
         media: [
           { src: "Videos/Prototype 3.mp4" },
@@ -285,27 +181,8 @@ programming languages.`,
       {
         title: "Animation Rules",
         description:
-`I was trying to make animation
-rules depending on which vowels
-are in the word. The animation
-should be more intuitive and
-help the user to understand how
-to pronounce the word. Then I
-made a tool to animate the words
-depending on which vowels are
-in the word. This gave me the
-opportunity to test out anima-
-tions to see if the pronunci-
-ation of the word is under-
-standable.
-Since there would be rules, I
-thought it would be possible
-to program a tool, in which it
-would generate typography 
-animations. Depending on which
-letter is in the word, it 
-would animate something
-different.
+`I was trying to make animation rules depending on which vowels are in the word. The animation should be more intuitive and help the user to understand how to pronounce the word. Then I made a tool to animate the words depending on which vowels are in the word. This gave me the opportunity to test out animations to see if the pronunciation of the word is understandable. Since there would be rules, I thought it would be possible to program a tool, in which it would generate typography animations.
+Depending on which letter is in the word, it would animate something different.
 
 The website is interactive!`,
         layout: "row",
@@ -317,20 +194,10 @@ The website is interactive!`,
       {
         title: "Visual Style Development",
         description:
-`Based on the feedback received,
-I worked on developing a new
-visual style that shifts focus
-toward the words themselves 
-rather than the interface. 
-Following the interim presen-
-tation, I also planned to make
-the interface more colorful,
-since a lot of gamified apps
-tend to be playful.
+`Based on the feedback received, I worked on developing a new visual style that shifts focus toward the words themselves rather than the interface.
+Following the interim presentation, I also planned to make the interface more colorful, since a lot of gamified apps tend to be playful.
 
-Then for Version 1.1, I imple-
-mented the design in code.
-The app is interactive.`,
+Then for Version 1.1, I implemented the design in code. The app is interactive.`,
         layout: "row",
         media: [
           { src: "Images/Entwurf für die Lexikon.png" },
@@ -345,13 +212,7 @@ The app is interactive.`,
       {
         title: "Second Interim Presentation",
         text: 
-`The main feedback was around visual design and animation. The app could use 
-more color to better convey its mood, with the possibility of letting users 
-choose their own colors. On the animation side, there is room to experiment more, 
-particularly with how pronunciation is shown, such as animating certain letters 
-differently. Giving users more control over the animations was also suggested. 
-A bigger open question is whether the project should focus on app design or 
-lean more into audiovisual elements, which needs to be clarified going forward.`,
+`The main feedback was around visual design and animation. The app could use more color to better convey its mood, with the possibility of letting users choose their own colors. On the animation side, there is room to experiment more, particularly with how pronunciation is shown, such as animating certain letters differently. Giving users more control over the animations was also suggested. A bigger open question is whether the project should focus on app design or lean more into audiovisual elements, which needs to be clarified going forward.`,
       },
     ],
   },
@@ -362,57 +223,26 @@ lean more into audiovisual elements, which needs to be clarified going forward.`
       {
         title: "Letter Scaler Tool",
         description:
-`I developed the tool further
-to allow more control over
-the animations, adding sliders
-to customize the stretching
-and duration of the typography
-animations.`,
+`I developed the tool further to allow more control over the animations, adding sliders to customize the stretching and duration of the typography animations.`,
         layout: "row",
         media: [{ embed: "Digital Tools/letter scaler/index.html" }],
       },
       {
         title: "Personas",
         description:
-`
-After the second interim pre-
-sentation, I received feed-
-back that my project needed
-to be more specific, parti-
-cularly whether it should
-focus on app design or
-experimentation with audio-
-visual elements.
+`After the second interim presentation, I received feedback that my project needed to be more specific, particularly whether it should focus on app design or experimentation with audiovisual elements.
 
-After some thought, I decided
-to focus on app design, as
-there is potential to develop
-a language app centered around
-dialects. My target audience
-is young immigrants who only 
-know standard German, and my
-secondary audience is Swiss
-people living outside of Basel.
-To better understand these
-groups, I created two personas:
-A young international student 
-from Germany as the primary 
-persona, and a teenager from 
-outside Basel as the secondary
-persona.
+After some thought, I decided to focus on app design, as there is potential to develop a language app centered around dialects. My target audience is young immigrants who only know standard German, and my secondary audience is Swiss people living outside of Basel. To better understand these groups, I created two personas: A young international student from Germany as the primary persona, and a teenager from outside Basel as the secondary persona.
 
-At the end, I planned to make
-a demo app.`,
+At the end, I planned to make a demo app.`,
         media: [{ src: "Images/Personas.png" }],
       },
       {
         title: "Light/Dark Mode?",
         align: "center",
         description:
-`Version 1.2 — For this version,
-I implemented a dark/light mode.
-I wanted to see how the light 
-mode feels. 
+`Version 1.2 — 
+For this version, I implemented a dark/light mode. I wanted to see how the light mode feels.
 
 It is interactive!`,
         media: [
@@ -422,25 +252,11 @@ It is interactive!`,
       {
         title: "Interface Development",
         description:
-`I developed the visual style
-further by introducing more
-color and experimenting with
-lighting effects to make the
-interface feel more dynamic 
-and engaging. 
+`I developed the visual style further by introducing more color and experimenting with lighting effects to make the interface feel more dynamic and engaging.
 
-I also tried to include some
-cultural references by using
-certain words for the tasks
-and including an info button
-for explaining cultural 
-references.
+I also tried to include some cultural references by using certain words for the tasks and including an info button for explaining cultural references.
 
-Since I experimented with
-typography animation, I
-implemented them into the 
-lesson. It is only in the
-task pages in the lesson.
+Since I experimented with typography animation, I implemented them into the lesson. It is only in the task pages in the lesson.
 
 The phone is interactive!`,
         layout: "row",
@@ -458,28 +274,8 @@ The phone is interactive!`,
       {
         title: "Interface and Icon Revision",
         description:
-`After receiving feedback from
-my mentors, I worked on making
-the interface and icons more 
-consistent. The main critique
-was that the map and icons did
-not feel cohesive. I revised 
-the icons to better align with
-the map and the overall design
-of the app.
-For the explanation pages in
-the lesson, I made morph ani-
-mations, so the user would
-understand the differences
-between the standard and dia-
-lect word. I also added color
-to the letters that are
-significant for pronouncing
-the word.
-I also received feedback that
-the audio button was unclear
-in its active state, so I made
-it react to sound when activated.`,
+`After receiving feedback from my mentors, I worked on making the interface and icons more consistent. The main critique was that the map and icons did not feel cohesive. I revised the icons to better align with the map and the overall design of the app. For the explanation pages in the lesson, I made morph animations, so the user would understand the differences between the standard and dialect word.
+I also added color to the letters that are significant for pronouncing the word. I also received feedback that the audio button was unclear in its active state, so I made it react to sound when activated.`,
         layout: "row",
         media: [
           { src: "Images/Entwurf Icon Design.png" },
@@ -499,10 +295,7 @@ it react to sound when activated.`,
 - two German men who live in Germany and have no experience with the dialect.
 - a young woman who lives in Romandie but does not speak Swiss German dialects.
 
-The user testing was helpful for understanding how the app is used and where issues arise. 
-I received a lot of feedback on both the design and usability. I also wanted to specifically
-find testers who do not have any contact with the dialect, so I could find weak points
-of the app.
+The user testing was helpful for understanding how the app is used and where issues arise. I received a lot of feedback on both the design and usability. I also wanted to specifically find testers who do not have any contact with the dialect, so I could find weak points of the app.
 
 Key findings:
 - The German participants had no familiarity with the pronunciation of the words, even though it is written.
@@ -524,12 +317,7 @@ const theoreticalSlides = [
       {
         title: "Gamifiy Learning",
         text: 
-`For the theoretical part of my thesis, I examined whether gamified learning
-experiences, specifically language apps, support second language acquisition.
-To build my argument, I summarized the history of gamification and language 
-acquisition, analyzed four language apps, and reviewed relevant psychological 
-theories. Finally, using the knowledge I had gathered, I argued whether
-gamification helps with language learning or not.`,
+`For the theoretical part of my thesis, I examined whether gamified learning experiences, specifically language apps, support second language acquisition. To build my argument, I summarized the history of gamification and language acquisition, analyzed four language apps, and reviewed relevant psychological theories. Finally, using the knowledge I had gathered, I argued whether gamification helps with language learning or not.`,
         media: [{ embed: "theo thesis/Arkaz_Senem.pdf" }],
       },
     ],
@@ -552,7 +340,7 @@ Viola Diehl
 Photography: 
 Senem Arkaz 
 
-Models:
+Modeling:
 Sofia Curbelo
 Mikail Arkaz
 Turan Efe Arkaz

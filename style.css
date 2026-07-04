@@ -569,14 +569,33 @@ header h1 {
 }
 
 /* Rich text: paragraphs + bullet lists (lines starting with "- ") */
-.rich-p { margin: 0; white-space: pre-wrap; }
+.rich-p {
+  margin: 0;
+  white-space: pre-wrap;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  /* let more (but sane) hyphen breaks happen so justify doesn't leave big gaps */
+  hyphenate-limit-chars: 5 2 2;
+  -webkit-hyphenate-limit-before: 2;
+  -webkit-hyphenate-limit-after: 2;
+  word-break: normal;
+  overflow-wrap: break-word;   /* break a too-long word instead of a huge gap */
+}
 .rich-p:last-child { margin-bottom: 0; }
 .rich-list {
   margin: 0;
   padding-left: 1.25em;   /* room for the marker, with hanging indent */
   list-style: disc;
 }
-.rich-list li { margin-bottom: 0.4em; }
+.rich-list li {
+  margin-bottom: 0.4em;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 5 2 2;
+  overflow-wrap: break-word;
+}
 .rich-list:last-child { margin-bottom: 0; }
 .rich-gap { height: 1.1em; }
 .rich-link {
@@ -601,6 +620,7 @@ header h1 {
   font-weight: 500;
   line-height: 1.8;
   white-space: pre-wrap;
+  text-wrap: pretty;
 }
 
 /* Section heading (set "title" on a group) — spans all columns/rows */
